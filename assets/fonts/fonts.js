@@ -1,0 +1,21 @@
+export default {
+    PoppinsBlack: require('./Poppins-Black.ttf'),
+    PoppinsBlackItalic: require('./Poppins-BlackItalic.ttf'),
+    PoppinsBold: require('./Poppins-Bold.ttf'),
+    PoppinsBoldItalic: require('./Poppins-BoldItalic.ttf'),
+    PoppinsExtraBold: require('./Poppins-ExtraBold.ttf'),
+    PoppinsExtraBoldItalic: require('./Poppins-ExtraBoldItalic.ttf'),
+    PoppinsExtraLight: require('./Poppins-ExtraLight.ttf'),
+    PoppinsExtraLightItalic: require('./Poppins-ExtraLightItalic.ttf'),
+    PoppinsItalic: require('./Poppins-Italic.ttf'),
+    PoppinsLight: require('./Poppins-Light.ttf'),
+    PoppinsLightItalic: require('./Poppins-LightItalic.ttf'),
+    PoppinsMedium: require('./Poppins-Medium.ttf'),
+    PoppinsMediumItalic: require('./Poppins-MediumItalic.ttf'),
+    PoppinsRegular: require('./Poppins-Regular.ttf'),
+    PoppinsSemiBold: require('./Poppins-SemiBold.ttf'),
+    PoppinsSemiBoldItalic: require('./Poppins-SemiBoldItalic.ttf'),
+    PoppinsThin: require('./Poppins-Thin.ttf'),
+    PoppinsThinItalic: require('./Poppins-ThinItalic.ttf'),
+  };
+  
