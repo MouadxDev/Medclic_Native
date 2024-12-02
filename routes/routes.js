@@ -9,6 +9,10 @@ import WelcomeScreen from '../screens/WelcomeScreen';
 import SplashScreen from '../screens/SplashScreen';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import RegisterScreen from '../screens/RegisterScreen';
+
+
+
 
 // Create Stack Navigator
 const Stack = createStackNavigator();
@@ -60,6 +64,11 @@ export default function Router() {
             <Stack.Screen
               name="Login"
               component={LoginScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Register"
+              component={RegisterScreen}
               options={{ headerShown: false }}
             />
           </>

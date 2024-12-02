@@ -43,8 +43,8 @@ export default function WelcomeScreen({ navigation }) {
         </Text>
         <Text
           style={[
-            tw`text-green-500 text-center mt-3`,
-            { fontFamily: 'PoppinsRegular' }, // Apply regular font from centralized fonts
+            tw`text-[#40E4AD] text-center mt-3`,
+            { fontFamily: 'PoppinsRegular', color: '#40E4AD'  }, // Apply regular font from centralized fonts
           ]}
         >
           Explorez les solutions de santé adaptées à vos besoins et trouvez le meilleur soin pour vous.
@@ -54,14 +54,14 @@ export default function WelcomeScreen({ navigation }) {
       {/* Buttons Section */}
       <View style={tw`w-full px-4`}>
         {/* Create Account Button with Gradient */}
-        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
           <LinearGradient
             colors={['#37A5E8', '#255A9B']} // Updated gradient colors
             style={tw`py-4 rounded-lg mb-4`}
           >
             <Text
               style={[
-                tw`text-white text-center text-lg font-semibold`,
+                tw`text-white text-center text-md font-semibold`,
                 { fontFamily: 'PoppinsRegular' }, // Apply bold font
               ]}
             >
@@ -77,7 +77,7 @@ export default function WelcomeScreen({ navigation }) {
         >
           <Text
             style={[
-              tw`text-blue-600 text-center text-lg font-semibold`,
+              tw`text-blue-600 text-center text-md font-semibold`,
               { fontFamily: 'PoppinsRegular' }, // Apply bold font
             ]}
           >
