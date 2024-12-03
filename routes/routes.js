@@ -3,6 +3,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { View, Text } from 'react-native';
 
+import Layout from '../components/Layout';
+
 // Import screens
 import LoginScreen from '../screens/LoginScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
@@ -10,6 +12,8 @@ import SplashScreen from '../screens/SplashScreen';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import RegisterScreen from '../screens/RegisterScreen';
+
+import { useUser } from '../contexts/AppContext';
 
 
 
@@ -21,6 +25,7 @@ const Stack = createStackNavigator();
 const isAuthenticated = false; // Replace with actual authentication logic
 
 export default function Router() {
+  const { user } = useUser();
   const [isSplashLoaded, setSplashLoaded] = useState(false); // Track SplashScreen state
 
   useEffect(() => {
@@ -39,14 +44,21 @@ export default function Router() {
             component={SplashScreen}
             options={{ headerShown: false }}
           />
-        ) : isAuthenticated ? (
+        ) :  user.isAuthenticated  ? (
           // Load authenticated routes
           <>
-            <Stack.Screen
+             <Stack.Screen
               name="Home"
-              component={HomeScreen}
-              options={{ headerShown: false }}
-            />
+              options={{ headerShown: false }} >
+
+              {() => (
+                <Layout>
+                  <HomeScreen />
+                </Layout>
+              )}
+              
+            </Stack.Screen>
+
             <Stack.Screen
               name="Profile"
               component={ProfileScreen}

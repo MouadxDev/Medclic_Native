@@ -39,11 +39,11 @@ export default function WelcomeScreen({ navigation }) {
             { fontFamily: 'PoppinsRegular' }, // Apply bold font from centralized fonts
           ]}
         >
-          Découvrez votre parcours{'\n'}de santé avec Mediclinic
+          Découvrez votre parcours{'\n'}de santé avec Mediclic
         </Text>
         <Text
           style={[
-            tw`text-[#40E4AD] text-center mt-3`,
+            tw`text-center mt-3`,
             { fontFamily: 'PoppinsRegular', color: '#40E4AD'  }, // Apply regular font from centralized fonts
           ]}
         >
@@ -61,7 +61,7 @@ export default function WelcomeScreen({ navigation }) {
           >
             <Text
               style={[
-                tw`text-white text-center text-md font-semibold`,
+                tw`text-white text-center  font-semibold`,
                 { fontFamily: 'PoppinsRegular' }, // Apply bold font
               ]}
             >
@@ -77,7 +77,7 @@ export default function WelcomeScreen({ navigation }) {
         >
           <Text
             style={[
-              tw`text-blue-600 text-center text-md font-semibold`,
+              tw`text-blue-600 text-center  font-semibold`,
               { fontFamily: 'PoppinsRegular' }, // Apply bold font
             ]}
           >

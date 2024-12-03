@@ -18,7 +18,7 @@ export default function RegisterScreen({ navigation }) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordStrength, setPasswordStrength] = useState('Faible');
-  const [passwordStrengthColor, setPasswordStrengthColor] = useState('#FFA500'); // Default to orange
+  const [passwordStrengthColor, setPasswordStrengthColor] = useState('#FF0000'); // Default to orange
 
   const handleRegister = () => {
     if (!email || !name || !password || !confirmPassword) {
@@ -37,18 +37,37 @@ export default function RegisterScreen({ navigation }) {
 
   const checkPasswordStrength = (password) => {
     setPassword(password);
-
-    if (password.length < 6) {
-      setPasswordStrength('Faible');
-      setPasswordStrengthColor('#FFA500'); // Orange
-    } else if (password.length < 10) {
-      setPasswordStrength('Moyenne');
-      setPasswordStrengthColor('#FFD700'); // Yellow
-    } else {
-      setPasswordStrength('Forte');
+  
+    let strength = 0;
+  
+    // Check for minimum length
+    if (password.length >= 8) strength++;
+  
+    // Check for uppercase letters
+    if (/[A-Z]/.test(password)) strength++;
+  
+    // Check for lowercase letters
+    if (/[a-z]/.test(password)) strength++;
+  
+    // Check for numbers
+    if (/[0-9]/.test(password)) strength++;
+  
+    // Check for special characters
+    if (/[^A-Za-z0-9]/.test(password)) strength++;
+  
+    // Determine password strength
+    if (strength <= 2) {
+      setPasswordStrength('Faible'); // Weak
+      setPasswordStrengthColor('#FF0000'); // Orange
+    } else if (strength === 3 || strength === 4) {
+      setPasswordStrength('Moyenne'); // Medium
+      setPasswordStrengthColor('#FFA500'); // Yellow
+    } else if (strength === 5) {
+      setPasswordStrength('Forte'); // Strong
       setPasswordStrengthColor('#32CD32'); // Green
     }
   };
+  
 
   return (
     <View style={styles.container}>
@@ -102,31 +121,48 @@ export default function RegisterScreen({ navigation }) {
         />
         {/* Password Strength Indicator */}
         <View style={tw`flex-row items-center justify-between mb-3`}>
-          <View style={tw`flex-row flex-1`}>
+        <View style={tw`flex-row flex-1`}>
+            {/* Band 1 */}
             <View
-              style={[
+            style={[
                 styles.passwordStrengthBar,
-                passwordStrength === 'Faible' || passwordStrength === 'Moyenne' || passwordStrength === 'Forte'
-                  ? { backgroundColor: '#FFA500' }
-                  : {},
-              ]}
+                {
+                backgroundColor: 
+                    passwordStrength === 'Faible' ? '#FF0000' :  // Red for weak
+                    passwordStrength === 'Moyenne' ? '#FFA500' :  // Orange for medium
+                    passwordStrength === 'Forte' ? '#32CD32' :  // Green for strong
+                    '#ddd'  // Default gray
+                }
+            ]}
             />
+            {/* Band 2 */}
             <View
-              style={[
+            style={[
                 styles.passwordStrengthBar,
-                passwordStrength === 'Moyenne' || passwordStrength === 'Forte'
-                  ? { backgroundColor: '#FFD700' }
-                  : {},
-              ]}
+                {
+                backgroundColor: 
+                    passwordStrength === 'Faible' ? '#ddd' :  // Gray for weak
+                    passwordStrength === 'Moyenne' ? '#FFA500' :  // Yellow for medium
+                    passwordStrength === 'Forte' ? '#32CD32' :  // Green for strong
+                    '#ddd'  // Default gray
+                }
+            ]}
             />
+            {/* Band 3 */}
             <View
-              style={[
+            style={[
                 styles.passwordStrengthBar,
-                passwordStrength === 'Forte' ? { backgroundColor: '#32CD32' } : {},
-              ]}
+                {
+                backgroundColor: 
+                    passwordStrength === 'Faible' ? '#ddd' :  // Gray for weak
+                    passwordStrength === 'Moyenne' ? '#ddd' :  // Gray for medium
+                    passwordStrength === 'Forte' ? '#32CD32' :  // Green for strong
+                    '#ddd'  // Default gray
+                }
+            ]}
             />
-          </View>
-          <Text style={{ color: passwordStrengthColor }}>{passwordStrength}</Text>
+        </View>
+          <Text style={[tw`pl-4`, { color: passwordStrengthColor }]}>{passwordStrength}</Text>
         </View>
         <TextInput
           style={styles.input}

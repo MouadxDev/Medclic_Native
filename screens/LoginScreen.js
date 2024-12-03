@@ -11,15 +11,26 @@ import {
 import { LinearGradient } from 'expo-linear-gradient'; // For gradient buttons
 import tw from 'tailwind-react-native-classnames'; // Tailwind for quick styling
 import Assets from '../components/Assets'; // Import logo
+import { useUser } from '../contexts/AppContext';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { user, setUser } = useUser();
 
   const handleLogin = () => {
-    // Perform login validation (replace this with your API call or auth logic)
-    if (email === 'admin@example.com' && password === 'password') {
+    if (email === 'admin@gmail.com' && password === 'admin') {
       Alert.alert('Login Successful', 'Welcome back!');
+
+      // Update the user context with authenticated data
+      setUser({
+        id: 1,
+        name: 'Admin User',
+        email,
+        isAuthenticated: true,
+        token: 'fake-jwt-token',
+      });
+
       navigation.replace('Home'); // Navigate to Home on successful login
     } else {
       Alert.alert('Login Failed', 'Invalid email or password. Please try again.');
