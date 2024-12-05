@@ -22,7 +22,7 @@ import { useUser } from '../contexts/AppContext';
 const Stack = createStackNavigator();
 
 // Authentication state (mock implementation for now)
-const isAuthenticated = false; // Replace with actual authentication logic
+
 
 export default function Router() {
   const { user } = useUser();

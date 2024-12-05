@@ -7,6 +7,7 @@ const defaults = {
     id: null,
     name: '',
     email: '',
+    userRole:'',
     isAuthenticated: false,
     token: '',
   },
@@ -16,7 +17,7 @@ const defaults = {
 // Contexts
 const UserContext = createContext(defaults.user);
 const ThemeContext = createContext(defaults.theme);
-
+    
 // Providers
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(defaults.user);

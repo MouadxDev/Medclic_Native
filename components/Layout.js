@@ -1,22 +1,26 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import Sidebar from './Sidebar';
 
 export default function Layout({ children }) {
   return (
     <View style={styles.container}>
-      {/* Sidebar */}
-      <View style={styles.sidebar}>
-        <Text style={styles.sidebarText}>Sidebar</Text>
-        {/* Add sidebar navigation items here */}
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.headerText}>Header</Text>
       </View>
-      {/* Main Content */}
-      <View style={styles.mainContent}>
-        {/* Header */}
-        <View style={styles.header}>
-          <Text style={styles.headerText}>Header</Text>
+      
+      {/* Main Content Area */}
+      <View style={styles.mainArea}>
+        {/* Sidebar */}
+        <View style={styles.sidebar}>
+          <Sidebar />
         </View>
-        {/* Dynamic content */}
-        <View style={styles.content}>{children}</View>
+        
+        {/* Content */}
+        <View style={styles.content}>
+          {children}
+        </View>
       </View>
     </View>
   );
@@ -25,21 +29,10 @@ export default function Layout({ children }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
-  },
-  sidebar: {
-    width: '20%',
-    backgroundColor: '#f0f0f0',
-    padding: 10,
-  },
-  sidebarText: {
-    fontSize: 16,
-  },
-  mainContent: {
-    flex: 1,
+    flexDirection: 'column', // Stack header on top of the main content area
   },
   header: {
-    height: 60,
+    height: 60, // Fixed height for the header
     backgroundColor: '#007bff',
     justifyContent: 'center',
     alignItems: 'center',
@@ -48,8 +41,17 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
   },
+  mainArea: {
+    flex: 1, // Take the remaining space below the header
+    flexDirection: 'row', // Sidebar and content side by side
+  },
+  sidebar: {
+    width: '18%', // Adjust sidebar width as needed
+    backgroundColor: '#f0f0f0',
+    padding: 0,
+  },
   content: {
-    flex: 1,
+    flex: 1, // Occupy the remaining space
     padding: 10,
   },
 });

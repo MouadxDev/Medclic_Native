@@ -12,28 +12,31 @@ import { LinearGradient } from 'expo-linear-gradient'; // For gradient buttons
 import tw from 'tailwind-react-native-classnames'; // Tailwind for quick styling
 import Assets from '../components/Assets'; // Import logo
 import { useUser } from '../contexts/AppContext';
+import { Users } from '../services/Users'; 
+const usersService = new Users();
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { user, setUser } = useUser();
+  const {setUser } = useUser();
 
-  const handleLogin = () => {
-    if (email === 'admin@gmail.com' && password === 'admin') {
-      Alert.alert('Login Successful', 'Welcome back!');
+  
 
-      // Update the user context with authenticated data
-      setUser({
-        id: 1,
-        name: 'Admin User',
-        email,
-        isAuthenticated: true,
-        token: 'fake-jwt-token',
-      });
-
-      navigation.replace('Home'); // Navigate to Home on successful login
-    } else {
-      Alert.alert('Login Failed', 'Invalid email or password. Please try again.');
+  const handleLogin = async () => {
+    try {
+      const userData = await usersService.getAll(); // Call the Users class for login
+        setUser({
+          id: userData.user.id,
+          name: userData.user.name,
+          email: userData.user.email,
+          userRole: userData.user.userRole,
+          isAuthenticated: true,
+          token: userData.user.token,
+        });
+      Alert.alert('Login Successful', `Welcome back, ${userData.user.name}!`);
+      // navigation.replace('Home'); // Navigate to Home
+    } catch (error) {
+      Alert.alert('Login Failed', error.message || 'Invalid email or password.');
     }
   };
 

@@ -1,0 +1,144 @@
+[
+    {
+      "id": 1,
+      "name": "Tableau de bord",
+      "type": "link",
+      "icon": "Dashboard",
+      "link": "Dashboard"
+    },
+    {
+      "id": 2,
+      "name": "Administration",
+      "type": "dropdown",
+      "data": [
+        {
+          "id": 1,
+          "name": "Patients",
+          "icon": "Patients",
+          "link": "Patients"
+        },
+        {
+          "id": 2,
+          "name": "Agenda",
+          "icon": "Agenda",
+          "link": "Agenda"
+        },
+        {
+          "id": 3,
+          "name": "Documents",
+          "icon": "Documents",
+          "link": "Documents"
+        },
+        {
+          "id": 4,
+          "name": "Calendriers",
+          "icon": "Calendriers",
+          "link": "Calendriers"
+        },
+        {
+          "id": 5,
+          "name": "Suivis",
+          "icon": "Suivis",
+          "link": "Suivis"
+        },
+        {
+          "id": 6,
+          "name": "Prescriptions",
+          "icon": "Prescriptions",
+          "link": "Prescriptions"
+        },
+        {
+          "id": 7,
+          "name": "Absences",
+          "icon": "Absences",
+          "link": "Absences"
+        },
+        {
+          "id": 8,
+          "name": "Réclamations",
+          "icon": "Réclamations",
+          "link": "Reclamations"
+        },
+        {
+          "id": 9,
+          "name": "DMP",
+          "icon": "DMP",
+          "link": "DMP"
+        },
+        {
+          "id": 10,
+          "name": "FSE",
+          "icon": "FSE",
+          "link": "FSE"
+        },
+        {
+          "id": 11,
+          "name": "Paiements",
+          "icon": "Paiements",
+          "link": "Paiements"
+        },
+        {
+          "id": 12,
+          "name": "Statistiques",
+          "icon": "Statistiques",
+          "link": "Statistiques"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Communauté",
+      "type": "dropdown",
+      "data": [
+        {
+          "id": 1,
+          "name": "Forum",
+          "icon": "Forum",
+          "link": "Forum"
+        },
+        {
+          "id": 2,
+          "name": "Annonces",
+          "icon": "Annonces",
+          "link": "Annonces"
+        },
+        {
+          "id": 3,
+          "name": "Evénements",
+          "icon": "Evénements",
+          "link": "Evenements"
+        },
+        {
+          "id": 4,
+          "name": "Blog",
+          "icon": "Blog",
+          "link": "Blog"
+        },
+        {
+          "id": 5,
+          "name": "Avis",
+          "icon": "Avis",
+          "link": "Avis"
+        },
+        {
+          "id": 6,
+          "name": "Market",
+          "icon": "Market",
+          "link": "Market"
+        },
+        {
+          "id": 7,
+          "name": "Emploi",
+          "icon": "Emploi",
+          "link": "Emploi"
+        },
+        {
+          "id": 8,
+          "name": "E-learning",
+          "icon": "E_learning",
+          "link": "E-learning"
+        }
+      ]
+    }
+  ]
+  
