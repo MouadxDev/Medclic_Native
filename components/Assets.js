@@ -21,6 +21,14 @@ import Statistiques from '../assets/sidebar/Statistiques';
 import Suivis from '../assets/sidebar/Suivis';
 import Dashboard from '../assets/sidebar/Dashboard';
 
+import Menu from '../assets/action/Menu';
+import Dotes from '../assets/action/Dotes';
+
+
+import PatientstatIcon from '../assets/statCards/PatientstatCards';
+import PrescriptionstatIcon from '../assets/statCards/PrescriptionstatCards';
+import AbsencestatIcon from '../assets/statCards/AbsencestatCards';
+import ReclamationstatIcon from '../assets/statCards/ReclamationstatCards';
 
 // Export all assets
 export const Assets = {
@@ -48,6 +56,18 @@ export const Assets = {
     Reclammations,
     Statistiques,
     Suivis,
+  },
+
+  statCards  :{
+    PatientstatIcon,
+    PrescriptionstatIcon,
+    AbsencestatIcon,
+    ReclamationstatIcon,
+  },
+
+  Action:{
+    Menu,
+    Dotes
   },
 };
 

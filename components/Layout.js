@@ -1,24 +1,75 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState, useRef } from 'react';
+import {
+  View,
+  StyleSheet,
+  StatusBar,
+  Platform,
+  Animated,
+  PanResponder,
+  Dimensions,
+} from 'react-native';
 import Sidebar from './Sidebar';
+import Header from './Header';
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
 
 export default function Layout({ children }) {
+  const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight : 0;
+
+  const [sidebarVisible, setSidebarVisible] = useState(false); // Track sidebar visibility
+  const translateX = useRef(new Animated.Value(-SCREEN_WIDTH * 0.18)).current; // Sidebar starts off-screen
+
+  const toggleSidebar = (show) => {
+    Animated.timing(translateX, {
+      toValue: show ? 0 : -SCREEN_WIDTH * 0.18, // Slide in or out
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => setSidebarVisible(show)); // Update state after animation
+  };
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: (evt, gestureState) => {
+        // Trigger gesture if horizontal swipe exceeds threshold
+        return Math.abs(gestureState.dx) > 20 && Math.abs(gestureState.dy) < 20;
+      },
+      onPanResponderMove: (evt, gestureState) => {
+        // Allow dragging to control sidebar position
+        if (gestureState.dx > 0 && !sidebarVisible) {
+          translateX.setValue(Math.min(gestureState.dx - SCREEN_WIDTH * 0.18, 0));
+        } else if (gestureState.dx < 0 && sidebarVisible) {
+          translateX.setValue(Math.max(gestureState.dx, -SCREEN_WIDTH * 0.18));
+        }
+      },
+      onPanResponderRelease: (evt, gestureState) => {
+        // Decide to open or close sidebar based on swipe distance
+        if (gestureState.dx > 50) {
+          toggleSidebar(true);
+        } else if (gestureState.dx < -50) {
+          toggleSidebar(false);
+        } else {
+          toggleSidebar(sidebarVisible);
+        }
+      },
+    })
+  ).current;
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: statusBarHeight }]} {...panResponder.panHandlers}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerText}>Header</Text>
+        <Header />
       </View>
-      
+
       {/* Main Content Area */}
       <View style={styles.mainArea}>
         {/* Sidebar */}
-        <View style={styles.sidebar}>
+        <Animated.View style={[styles.sidebar, { transform: [{ translateX }] }]}>
           <Sidebar />
-        </View>
-        
+        </Animated.View>
+
         {/* Content */}
-        <View style={styles.content}>
+        <View style={[styles.content]}>
           {children}
         </View>
       </View>
@@ -29,29 +80,27 @@ export default function Layout({ children }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column', // Stack header on top of the main content area
+    flexDirection: 'column',
+    backgroundColor: '#fff',
   },
   header: {
-    height: 60, // Fixed height for the header
+    height: 60,
     backgroundColor: '#007bff',
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-  headerText: {
-    color: '#fff',
-    fontSize: 18,
   },
   mainArea: {
-    flex: 1, // Take the remaining space below the header
-    flexDirection: 'row', // Sidebar and content side by side
+    flex: 1,
+    flexDirection: 'row',
   },
   sidebar: {
-    width: '18%', // Adjust sidebar width as needed
+    width: '18%',
     backgroundColor: '#f0f0f0',
-    padding: 0,
+    position: 'absolute',
+    height: '100%',
+    zIndex: 1,
   },
   content: {
-    flex: 1, // Occupy the remaining space
+    flex: 1,
     padding: 10,
   },
 });

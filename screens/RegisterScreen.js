@@ -13,10 +13,10 @@ import tw from 'tailwind-react-native-classnames'; // Tailwind styling
 import Assets from '../components/Assets'; // Import logo
 
 export default function RegisterScreen({ navigation }) {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState(''); 
+  const [name, setName] = useState(''); 
+  const [password, setPassword] = useState(''); 
+  const [confirmPassword, setConfirmPassword] = useState(''); 
   const [passwordStrength, setPasswordStrength] = useState('Faible');
   const [passwordStrengthColor, setPasswordStrengthColor] = useState('#FF0000'); // Default to orange
 

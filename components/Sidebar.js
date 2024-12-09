@@ -2,18 +2,19 @@ import React, { useState } from 'react';
 import { View, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { Assets } from './Assets';
 import sidebarData from '../static/menuData';
-
-export default function Sidebar({ navigation }) {
+import { useNavigation } from '@react-navigation/native';
+export default function Sidebar({  }) {
   const [activeSection, setActiveSection] = useState(null);
-
+  const navigation = useNavigation();
+  
   // Sidebar data structure
 
 
   // Handle navigation when an icon is clicked
   const handleNavigation = (route) => {
     navigation.navigate(route);
-    
   };
+  
 
   // Render individual icons
   const renderIcons = (items) => {
@@ -21,8 +22,7 @@ export default function Sidebar({ navigation }) {
       <TouchableOpacity
         key={index}
         style={styles.iconContainer}
-        onPress={() => handleNavigation(item.route)}
-      >
+        onPress={() => handleNavigation(item.route)}>
         {Assets.Icons[item.icon] ? (
           React.createElement(Assets.Icons[item.icon], {
             width: 30, // Set icon width
