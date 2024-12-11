@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, View, StyleSheet } from 'react-native';
 import { 
-    Calendar,
+  CalendarComponet,
     Greeting, 
     PatientList,
     PatientOverview, 
@@ -66,11 +66,11 @@ export default function HomeScreen() {
     labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'], // Months
     datasets: [
       {
-        data: [3000, 5000, 4500, 6000, 5500, 7000, 6500, 8000, 7500, 8500, 8000, 9000], // Male patient visits
+        data: [3000, 5000, 4500, 6000, 1900, 7000, 6500, 8000, 7500, 8500, 8000, 9000], // Male patient visits
         color: () => '#3A6FF8', // Blue line for male patients
       },
       {
-        data: [1000, 1500, 1200, 1600, 1400, 1800, 1700, 1900, 1800, 2000, 1900, 2100], // Female patient visits
+        data: [1000, 2500, 1200, 2000, 1400, 1800, 1700, 1900, 1800, 5000, 1900, 2100], // Female patient visits
         color: () => '#E126FF', // Pink line for female patients
       },
     ],
@@ -83,8 +83,8 @@ export default function HomeScreen() {
 
   const calendarData = {
     calendar: {
-      month: 'Juillet, 2022',
-      selectedDate: 6,
+      month: '12, 2024',
+      selectedDate: 10,
     },
     appointments: [
       {
@@ -104,12 +104,12 @@ export default function HomeScreen() {
       },
     ],
     waitingRoomStats: {
-      total: 251,
-      completed: 120,
-      pending: 131,
+      total: 500,
+      completed: 300,
+      pending: 200,
     },
   };
- 
+  
 
   return (
     <ScrollView style={styles.container}>
@@ -136,7 +136,7 @@ export default function HomeScreen() {
       <ReclamationsList reclamations={reclamationsData} /> 
 
       {/* Calendar and Waiting Room Stats */}
-      <Calendar data={calendarData} />
+      <CalendarComponet data={calendarData} />
 
     </ScrollView>
   );

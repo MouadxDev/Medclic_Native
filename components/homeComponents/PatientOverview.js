@@ -24,6 +24,7 @@ export default function PatientOverview({ chartData, filter }) {
         data={chartData}
         width={300}
         height={200}
+        bezier
         chartConfig={{
           backgroundColor: '#fdfdfd',
           backgroundGradientFrom: '#fdfdfd',
