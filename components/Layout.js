@@ -10,12 +10,14 @@ import {
 } from 'react-native';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import AnimatedMenu from './AnimatedMenu';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
 export default function Layout({ children }) {
   const statusBarHeight = Platform.OS === 'android' ? StatusBar.currentHeight : 0;
-
+  const [menuVisible, setMenuVisible] = useState(false);
+  
   const [sidebarVisible, setSidebarVisible] = useState(false); // Track sidebar visibility
   const translateX = useRef(new Animated.Value(-SCREEN_WIDTH * 0.18)).current; // Sidebar starts off-screen
 
@@ -58,7 +60,7 @@ export default function Layout({ children }) {
     <View style={[styles.container, { paddingTop: statusBarHeight }]} {...panResponder.panHandlers}>
       {/* Header */}
       <View style={styles.header}>
-        <Header />
+        <Header onMenuPress={() => setMenuVisible(true)} />
       </View>
 
       {/* Main Content Area */}
@@ -73,6 +75,9 @@ export default function Layout({ children }) {
           {children}
         </View>
       </View>
+
+          {/* Animated Menu */}
+          <AnimatedMenu isVisible={menuVisible} toggleMenu={setMenuVisible} />
     </View>
   );
 }

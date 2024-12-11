@@ -1,15 +1,16 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import Assets from '../components/Assets'; // Import logo from Assets
 
-export default function Header() {
+export default function Header({ onMenuPress }) {
   return (
     <View style={styles.header}>
       {/* Logo on the left */}
       <Image source={Assets.Logo} style={styles.logo} resizeMode="contain" />
-      
       {/* Menu icon on the right */}
-      <Assets.Action.Menu />
+      <TouchableOpacity onPress={onMenuPress}>
+        <Assets.Action.Menu />
+      </TouchableOpacity>
     </View>
   );
 }

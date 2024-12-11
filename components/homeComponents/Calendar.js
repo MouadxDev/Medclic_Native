@@ -7,20 +7,19 @@ const CalendarComponent = ({ data }) => {
   // State to hold the current date dynamically
   const [selectedDate, setSelectedDate] = useState('');
 
+
+  
   useEffect(() => {
     // Construct the initial date from the server data
-    const { month, selectedDate: day } = data.calendar;
+    const { month, selectedDate: day } = data.date;
     const [monthNumber, year] = month.split(', ').map((item) => item.trim()); // Extract month and year
     const formattedDate = `${year}-${monthNumber.padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
     setSelectedDate(formattedDate); // Set the initial selected date
-  }, [data.calendar]);
+  }, [data.date]);
 
   const handleDayPress = (day) => {
     setSelectedDate(day.dateString); // Update the selected date dynamically
   };
-
-
-
 
   return (
     <ScrollView style={styles.container}>
