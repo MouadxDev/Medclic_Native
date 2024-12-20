@@ -12,31 +12,41 @@ import { LinearGradient } from 'expo-linear-gradient'; // For gradient buttons
 import tw from 'tailwind-react-native-classnames'; // Tailwind for quick styling
 import Assets from '../components/Assets'; // Import logo
 import { useUser } from '../contexts/AppContext';
-import { Users } from '../services/Users'; 
-const usersService = new Users();
+import { Users } from '../services/Users';
+
+import { Toast, useToast } from 'react-native-toast-notifications';
 
 export default function LoginScreen({ navigation }) {
+  const usersService = new Users();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const {setUser } = useUser();
 
+  const showToast = (type, message) => {
+    Toast.show(message, { type });
+  };
   
 
   const handleLogin = async () => {
     try {
-      const userData = await usersService.getAll(); // Call the Users class for login
+      const userData = await usersService.getAll(); 
+      const user = userData.data.user;
+
         setUser({
-          id: userData.user.id,
-          name: userData.user.name,
-          email: userData.user.email,
-          userRole: userData.user.userRole,
-          isAuthenticated: true,
-          token: userData.user.token,
+          id: user.id || '',
+          name: user.name || 'Unknown',
+          email: user.email || '',
+          userRole: user.userRole || 'guest',
+          isAuthenticated: !!user.token, 
+          token: user.token || null,
         });
-      Alert.alert('Login Successful', `Welcome back, ${userData.user.name}!`);
-      // navigation.replace('Home'); // Navigate to Home
+      
+      showToast('success', 'Connexion réussie')
+      
     } catch (error) {
-      Alert.alert('Login Failed', error.message || 'Invalid email or password.');
+     
+      showToast('error', 'Invalid email or password.')
+
     }
   };
 
@@ -88,6 +98,8 @@ export default function LoginScreen({ navigation }) {
         <TouchableOpacity onPress={handleLogin}>
           <LinearGradient
             colors={['#37A5E8', '#255A9B']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
             style={styles.buttonGradient}
           >
             <Text style={[styles.buttonText, { fontFamily: 'PoppinsBold' }]}>

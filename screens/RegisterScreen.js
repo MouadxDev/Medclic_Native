@@ -181,6 +181,8 @@ export default function RegisterScreen({ navigation }) {
         <TouchableOpacity onPress={handleRegister}>
           <LinearGradient
             colors={['#37A5E8', '#255A9B']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
             style={styles.buttonGradient}
           >
             <Text style={[styles.buttonText, { fontFamily: 'PoppinsBold' }]}>

@@ -20,15 +20,35 @@ import Reclammations from '../assets/sidebar/Réclamations';
 import Statistiques from '../assets/sidebar/Statistiques';
 import Suivis from '../assets/sidebar/Suivis';
 import Dashboard from '../assets/sidebar/Dashboard';
+import Consultation from '../assets/sidebar/Consultation';
 
 import Menu from '../assets/action/Menu';
 import Dotes from '../assets/action/Dotes';
+import CalendarIcon from '../assets/action/CalendarIcon'
+import DocumentsIcon from '../assets/action/DocumentsIcon'
+import InviterIcon from '../assets/action/InviterIcon'
+import MessagesIcon from '../assets/action/MessagesIcon'
+import NotesIcon from '../assets/action/NotesIcon'
+import PrescriptionIcon from '../assets/action/PrescriptionIcon'
+import SuiviIcon from '../assets/action/SuiviIcon'
+import BloquerIcon from '../assets/action/Bloquer'
 
 
 import PatientstatIcon from '../assets/statCards/PatientstatCards';
 import PrescriptionstatIcon from '../assets/statCards/PrescriptionstatCards';
 import AbsencestatIcon from '../assets/statCards/AbsencestatCards';
 import ReclamationstatIcon from '../assets/statCards/ReclamationstatCards';
+
+import DatepickerIcon from '../assets/inputs/Datepicker';
+import FilterIcon from '../assets/inputs/FilterIcon';
+import PlusIcon from '../assets/action/Plus';
+
+import AiIcon from '../assets/consultation/Ai.js';
+import DmpIcon from '../assets/consultation/Dmp.js';
+import ObIcon from '../assets/consultation/Ob.js';
+import PreIcon from '../assets/consultation/Pre.js';
+import UserInfoIcon from '../assets/consultation/user_info.js';
+
 
 // Export all assets
 export const Assets = {
@@ -56,6 +76,7 @@ export const Assets = {
     Reclammations,
     Statistiques,
     Suivis,
+    Consultation,
   },
 
   statCards  :{
@@ -67,8 +88,28 @@ export const Assets = {
 
   Action:{
     Menu,
-    Dotes
+    Dotes,
+    CalendarIcon,
+    DocumentsIcon,
+    InviterIcon,
+    MessagesIcon,
+    NotesIcon,
+    PrescriptionIcon,
+    SuiviIcon,
+    PlusIcon,
+    BloquerIcon,
   },
+  Inputs:{
+    DatepickerIcon,
+    FilterIcon
+  },
+  Consultation:{
+    AiIcon,
+    DmpIcon,
+    ObIcon,
+    PreIcon,
+    UserInfoIcon,
+  }
 };
 
 export default Assets;

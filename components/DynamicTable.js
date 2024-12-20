@@ -1,74 +1,94 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
+  TouchableOpacity,
+  Modal,
+  Dimensions,
 } from 'react-native';
 
+import Assets from './Assets';
+
 export default function DynamicTable({
-  title,
-  description,
   columns,
   data,
-  actions,
   pagination,
   onActionClick,
 }) {
+  const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+  const rowRefs = useRef([]);
+
+  const actions = [
+    { key: 'rendezvous', label: 'Rendez-vous', icon: <Assets.Action.CalendarIcon /> },
+    { key: 'suivis', label: 'Suivis', icon: <Assets.Action.SuiviIcon /> },
+    { key: 'prescriptions', label: 'Prescriptions', icon: <Assets.Action.PrescriptionIcon /> },
+    { key: 'inviter', label: 'Inviter', icon: <Assets.Action.InviterIcon /> },
+    { key: 'messages', label: 'Messages', icon: <Assets.Action.MessagesIcon /> },
+    { key: 'documents', label: 'Documents', icon: <Assets.Action.DocumentsIcon /> },
+    { key: 'notes', label: 'Notes', icon: <Assets.Action.NotesIcon /> },
+    { key: 'bloquer', label: 'Bloquer', icon: <Assets.Action.BloquerIcon /> },
+  ];
+
+  const handleActionPress = (actionKey, row) => {
+    onActionClick(actionKey, row);
+    setSelectedRowIndex(null);
+  };
+
+  const handleDotsPress = (index, event) => {
+    if (selectedRowIndex === index) {
+      setSelectedRowIndex(null);
+      return;
+    }
+
+    // Measure the position of the pressed row
+    rowRefs.current[index].measureInWindow((x, y, width, height) => {
+      setModalPosition({
+        top: y + height,
+        left: x + width - 200, // Adjust based on your design
+      });
+      setSelectedRowIndex(index);
+    });
+  };
+
   return (
     <View style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.title}>{title}</Text>
-        {description && <Text style={styles.description}>{description}</Text>}
-      </View>
-
-      {/* Table */}
-      <ScrollView horizontal style={styles.tableWrapper}>
-        <View>
-          {/* Column Headers */}
-          <View style={styles.headerRow}>
-            {columns.map((column) => (
-              <Text key={column.key} style={[styles.cell, styles.headerCell]}>
-                {column.label}
-              </Text>
-            ))}
-            {actions.length > 0 && (
-              <Text style={[styles.cell, styles.headerCell]}>Actions</Text>
-            )}
-          </View>
-
-          {/* Data Rows */}
+      <ScrollView>
+        <View style={styles.table}>
           {data.map((row, rowIndex) => (
-            <View key={rowIndex} style={styles.row}>
-              {columns.map((column) => (
-                <Text
-                  key={column.key}
-                  style={[
-                    styles.cell,
-                    column.isGray ? styles.grayText : null,
-                  ]}
-                >
-                  {row[column.key]}
-                </Text>
+            <View 
+              key={rowIndex} 
+              ref={(ref) => rowRefs.current[rowIndex] = ref}
+              style={styles.row}
+            >
+              {/* Row Data */}
+              {columns.map((column, index) => (
+                <View key={column.key} style={styles.cellFullRow}>
+                  <Text style={styles.cellLabel}>{column.label}:</Text>
+                  <Text
+                    style={[
+                      styles.cellValue,
+                      
+                      (index === 1 || index === 4) && { color: '#6C87AE' }
+                    ]}
+                  >
+                    {row[column.key]}
+                  </Text>
+                </View>
               ))}
 
-              {/* Actions */}
+              {/* Actions Trigger */}
               {actions.length > 0 && (
-                <View style={[styles.cell, styles.actionsCell]}>
-                  {actions.map((action, actionIndex) => (
-                    <TouchableOpacity
-                      key={actionIndex}
-                      style={[
-                        styles.actionButton,
-                        { backgroundColor: action.color || '#007BFF' },
-                      ]}
-                      onPress={() => onActionClick(action.key, row)}
-                    >
-                      <Text style={styles.actionText}>{action.label}</Text>
-                    </TouchableOpacity>
-                  ))}
+                <View style={styles.actionsCell}>
+                  <TouchableOpacity
+                    style={styles.actionDots}
+                    onPress={(event) => handleDotsPress(rowIndex, event)}
+                  >
+                    <Text style={styles.dots}>•••</Text>
+                  </TouchableOpacity>
                 </View>
               )}
             </View>
@@ -76,38 +96,66 @@ export default function DynamicTable({
         </View>
       </ScrollView>
 
+      {/* Custom Modal for Actions */}
+      <Modal
+        transparent={true}
+        visible={selectedRowIndex !== null}
+        onRequestClose={() => setSelectedRowIndex(null)}
+      >
+        <TouchableOpacity 
+          style={styles.modalOverlay} 
+          activeOpacity={1} 
+          onPress={() => setSelectedRowIndex(null)}
+        >
+          <View 
+            style={[
+              styles.actionModal, 
+              { 
+                top: modalPosition.top, 
+                left: modalPosition.left 
+              }
+            ]}
+          >
+            {actions.map((action) => (
+              <TouchableOpacity
+                key={action.key}
+                style={styles.actionModalItem}
+                onPress={() => handleActionPress(action.key, data[selectedRowIndex])}
+              >
+                <View style={styles.actionIconContainer}>
+                  {action.icon}
+                </View>
+                <Text style={styles.actionModalItemText}>{action.label}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </TouchableOpacity>
+      </Modal>
+
       {/* Pagination */}
       {pagination && (
         <View style={styles.pagination}>
-          <TouchableOpacity
-            disabled={!pagination.prev}
-            onPress={pagination.onPrev}
+          <Text
+            onPress={() => pagination.prev && pagination.prev()}
+            style={[
+              styles.pageButton,
+              !pagination.prev && styles.disabledButton,
+            ]}
           >
-            <Text
-              style={[
-                styles.pageButton,
-                !pagination.prev && styles.disabledButton,
-              ]}
-            >
-              Previous
-            </Text>
-          </TouchableOpacity>
+           ← Précédent
+          </Text>
           <Text style={styles.pageIndicator}>
             Page {pagination.current} of {pagination.total}
           </Text>
-          <TouchableOpacity
-            disabled={!pagination.next}
-            onPress={pagination.onNext}
+          <Text
+            onPress={() => pagination.next && pagination.next()}
+            style={[
+              styles.pageButton,
+              !pagination.next && styles.disabledButton,
+            ]}
           >
-            <Text
-              style={[
-                styles.pageButton,
-                !pagination.next && styles.disabledButton,
-              ]}
-            >
-              Next
-            </Text>
-          </TouchableOpacity>
+            Suivant →
+          </Text>
         </View>
       )}
     </View>
@@ -124,65 +172,80 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+    marginVertical: 16,
   },
-  header: {
+  table: {
     marginBottom: 16,
   },
-  title: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 4,
-    color: '#333',
-  },
-  description: {
-    fontSize: 14,
-    color: '#777',
-  },
-  tableWrapper: {
-    marginBottom: 16,
-  },
-  headerRow: {
-    flexDirection: 'row',
+  row: {
+    flexDirection: 'column',
     borderBottomWidth: 1,
     borderColor: '#ddd',
     paddingVertical: 8,
   },
-  row: {
+  cellFullRow: {
     flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderColor: '#eee',
-    paddingVertical: 8,
+    justifyContent: 'space-between',
+    paddingVertical: 4,
   },
-  cell: {
-    flex: 1,
-    padding: 8,
-    textAlign: 'center',
+  cellLabel: {
     fontSize: 14,
-  },
-  headerCell: {
+    color: '#333333',
+    flex: 1,
     fontWeight: 'bold',
-    color: '#007BFF',
+  },
+  cellValue: {
+    fontSize: 14,
+    color: '#333',
+    textAlign: 'right',
+    flex: 1,
   },
   actionsCell: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
+    marginTop: 10,
   },
-  actionButton: {
-    padding: 8,
-    borderRadius: 4,
-    marginHorizontal: 4,
+  actionDots: {
+    padding: 10,
   },
-  actionText: {
-    color: '#fff',
-    fontSize: 12,
+  dots: {
+    fontSize: 18,
+    color: '#aaa',
   },
-  grayText: {
-    color: '#999',
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'transparent',
+  },
+  actionModal: {
+    position: 'absolute',
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+    width: 200,
+  },
+  actionModalItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    borderBottomWidth: 1,
+    borderColor: '#eee',
+  },
+  actionIconContainer: {
+    marginRight: 10,
+  },
+  actionModalItemText: {
+    fontSize: 14,
+    color: '#333',
   },
   pagination: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginTop: 16,
   },
   pageButton: {
     fontSize: 14,

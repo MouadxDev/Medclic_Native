@@ -90,7 +90,6 @@ const styles = StyleSheet.create({
   },
   header: {
     height: 60,
-    backgroundColor: '#007bff',
     justifyContent: 'center',
   },
   mainArea: {
@@ -106,6 +105,6 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: 10,
+    padding: 5,
   },
 });

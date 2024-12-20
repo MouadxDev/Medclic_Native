@@ -1,11 +1,11 @@
 // sidebarData.js
 
 const sidebarData = [
-    { icon: 'Dashboard', route: 'Dashboard' },
+    { icon: 'Dashboard', route: 'Home' },
     {
       section: 'Administration',
       items: [
-        { icon: 'Patients', route: 'Patients' },
+        { icon: 'Patients', route: 'MyPatientsScreen' },
         { icon: 'Agenda', route: 'Agenda' },
         { icon: 'Documents', route: 'Documents' },
         { icon: 'Calendriers', route: 'Calendriers' },
@@ -17,6 +17,7 @@ const sidebarData = [
         { icon: 'FSE', route: 'FSE' },
         { icon: 'Paiements', route: 'Paiements' },
         { icon: 'Statistiques', route: 'Statistiques' },
+        { icon: 'Consultation', route: 'ConsultationScreen' },
       ],
     },
     {

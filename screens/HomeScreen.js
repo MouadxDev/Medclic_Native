@@ -17,7 +17,9 @@ export default function HomeScreen() {
 
 
   const { user } = useUser();
-  const userName = user.userRole === 'professional' ? `Dr. ${user.name}` : user.name;
+  const userName = user.userRole === 'professional' 
+  ? `Bonjour Dr. ${user.name}` 
+  : `Bonjour ${user.name}`;
   
   const [dashboardData, setDashboardData] = useState({
     stats: [],
@@ -88,7 +90,7 @@ export default function HomeScreen() {
       
       {/* Greeting */}
       <Greeting
-        userName={userName}
+        title={userName}
         greeting="Passez une bonne journée au travail"
       />
 

@@ -15,6 +15,8 @@ import RegisterScreen from '../screens/RegisterScreen';
 
 import { useUser } from '../contexts/AppContext';
 
+import MyPatientsScreen from '../screens/MyPatientsScreen';
+import ConsultationScreen from '../screens/ConsultationScreen';
 
 
 
@@ -59,6 +61,30 @@ export default function Router() {
               
             </Stack.Screen>
 
+            <Stack.Screen
+              name="MyPatientsScreen"
+              options={{ headerShown: false }} >
+
+              {() => (
+                <Layout>
+                  <MyPatientsScreen />
+                </Layout>
+              )}
+              
+            </Stack.Screen>
+
+            <Stack.Screen
+              name="ConsultationScreen"
+              options={{ headerShown: false }} >
+
+              {() => (
+                <Layout>
+                  <ConsultationScreen />
+                </Layout>
+              )}
+              
+            </Stack.Screen>
+            
             <Stack.Screen
               name="Profile"
               component={ProfileScreen}

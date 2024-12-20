@@ -1,0 +1,181 @@
+{
+  "data": {
+    "user": {
+      "id": 1,
+      "name": "Dr. John Doe",
+      "userRole": "professional"
+    },
+    "stats": [
+      { "count": 500, "label": "Patients", "color": "#7A6EFE", "icon": "PatientstatIcon" },
+      { "count": 45, "label": "Prescriptions", "color": "#FF5363", "icon": "PrescriptionstatIcon" },
+      { "count": 3, "label": "Absences", "color": "#FFA901", "icon": "AbsencestatIcon" },
+      { "count": 100, "label": "Réclamations", "color": "#24A8FA", "icon": "ReclamationstatIcon" }
+    ],
+
+    "patientOverviewData": {
+      "man": [3000, 5000, 4500, 6000, 1900, 7000, 6500, 8000, 7500, 8500, 8000, 9000],
+      "woman": [1000, 2500, 1200, 2000, 1400, 1800, 1700, 1900, 1800, 5000, 1900, 2100]
+    },
+
+
+    "patients": [
+      {
+        "photo": "https://via.placeholder.com/50",
+        "name": "Annette Black",
+        "prescriptionCount": 3,
+        "documentCount": 3,
+        "appointmentTime": "Today, 08:30 am - 10:30 am",
+        "notesCount": 2
+      },
+      {
+        "photo": "https://via.placeholder.com/50",
+        "name": "Ronald Richards",
+        "prescriptionCount": 4,
+        "documentCount": 2,
+        "appointmentTime": "Tomorrow, 10:00 am - 11:00 am",
+        "notesCount": 1
+      }
+    ],
+    "reclamations": [
+      {
+        "photo": "https://via.placeholder.com/50",
+        "name": "Annette Black",
+        "date": "Dec 18, 2021",
+        "service": "Echographie Abdominale",
+        "status": "Annulé"
+      },
+      {
+        "photo": "https://via.placeholder.com/50",
+        "name": "Ronald Richards",
+        "date": "Dec 19, 2021",
+        "service": "Echographie Abdominale",
+        "status": "Terminé"
+      }
+    ],
+    "calendarData": {
+      "date": {
+        "month": "12, 2024",
+        "selectedDate": 10
+      },
+      "appointments": [
+        {
+          "time": "Today, 08:30 am - 10:30 am",
+          "title": "Nurse Visit 20",
+          "doctor": "Dr. Carol D. Pollack-rundle"
+        },
+        {
+          "time": "Today, 11:00 am - 12:30 pm",
+          "title": "Annual Visit 15",
+          "doctor": "Dr. Donald F. Watren"
+        },
+        {
+          "time": "Today, 02:00 pm - 03:00 pm",
+          "title": "Established Patient 30",
+          "doctor": "Dr. Gina F. Durham"
+        }
+      ],
+      "waitingRoomStats": {
+        "total": 500,
+        "completed": 300,
+        "pending": 200
+      }
+    }
+  }
+}
+
+{
+  "status": "success",
+  "message": "User data retrieved successfully",
+  "data": {
+    "user": {
+      "id": "12345",
+      "name": "Salmi Ahmed ",
+      "email": "dr.ahmed@example.com",
+      "userRole": "professional",
+      "specialiste": "Généraliste",
+      "token": "abcdef1234567890",
+      "isAuthenticated": true
+    }
+  }
+}
+
+
+{
+  "items": [
+    [
+  {
+    "id": 1,
+    "name": "Alex Smith",
+    "age": 22,
+    "gender": "Homme",
+    "phone": "0561234567"
+  },
+  {
+    "id": 2,
+    "name": "Emily Johnson",
+    "age": 24,
+    "gender": "Femme",
+    "phone": "0569876543"
+  },
+  {
+    "id": 3,
+    "name": "Michael Brown",
+    "age": 26,
+    "gender": "Homme",
+    "phone": "0578518519"
+  },
+  {
+    "id": 4,
+    "name": "Sophia Davis",
+    "age": 28,
+    "gender": "Femme",
+    "phone": "0587160495"
+  },
+  {
+    "id": 5,
+    "name": "James Wilson",
+    "age": 30,
+    "gender": "Homme",
+    "phone": "0595802471"
+  },
+  {
+    "id": 6,
+    "name": "Olivia Moore",
+    "age": 32,
+    "gender": "Femme",
+    "phone": "0604444447"
+  },
+  {
+    "id": 7,
+    "name": "David Taylor",
+    "age": 34,
+    "gender": "Homme",
+    "phone": "0613086423"
+  },
+  {
+    "id": 8,
+    "name": "Isabella Martinez",
+    "age": 36,
+    "gender": "Femme",
+    "phone": "0621728399"
+  },
+  {
+    "id": 9,
+    "name": "Daniel Anderson",
+    "age": 38,
+    "gender": "Homme",
+    "phone": "0630370375"
+  },
+  {
+    "id": 10,
+    "name": "Charlotte Garcia",
+    "age": 40,
+    "gender": "Femme",
+    "phone": "0639012351"
+  }
+]
+
+  ],
+  "totalPages": 5,
+  "currentPage": 1
+}

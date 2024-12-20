@@ -57,6 +57,8 @@ export default function WelcomeScreen({ navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate('Register')}>
           <LinearGradient
             colors={['#37A5E8', '#255A9B']} // Updated gradient colors
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
             style={tw`py-4 rounded-lg mb-4`}
           >
             <Text

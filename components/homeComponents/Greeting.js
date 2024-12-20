@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function Greeting({ userName, greeting }) {
+export default function Greeting({ title, greeting }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Bonjour, {userName}</Text>
+      <Text style={styles.title}>{title}</Text>
       <Text style={styles.subtitle}>{greeting}</Text>
     </View>
   );
