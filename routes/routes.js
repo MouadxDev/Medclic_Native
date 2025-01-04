@@ -17,6 +17,10 @@ import { useUser } from '../contexts/AppContext';
 
 import MyPatientsScreen from '../screens/MyPatientsScreen';
 import ConsultationScreen from '../screens/ConsultationScreen';
+import AbsencesScreen from '../screens/AbsencesScreen';
+import MyRDVsScreen from '../screens/MyRDVsScreen';
+import ComplaintScreen from '../screens/ComplaintScreen';
+import MyDocumentsScreen from '../screens/MyDocumentsScreen';
 
 
 
@@ -74,6 +78,30 @@ export default function Router() {
             </Stack.Screen>
 
             <Stack.Screen
+              name="MyRDVsScreen"
+              options={{ headerShown: false }} >
+
+              {() => (
+                <Layout>
+                  <MyRDVsScreen />
+                </Layout>
+              )}
+              
+            </Stack.Screen>
+
+            <Stack.Screen
+              name="AbsencesScreen"
+              options={{ headerShown: false }} >
+
+              {() => (
+                <Layout>
+                  <AbsencesScreen />
+                </Layout>
+              )}
+              
+            </Stack.Screen>
+
+            <Stack.Screen
               name="ConsultationScreen"
               options={{ headerShown: false }} >
 
@@ -84,6 +112,32 @@ export default function Router() {
               )}
               
             </Stack.Screen>
+            
+            <Stack.Screen
+              name="ComplaintScreen"
+              options={{ headerShown: false }} >
+
+              {() => (
+                <Layout>
+                  <ComplaintScreen />
+                </Layout>
+              )}
+              
+            </Stack.Screen>
+
+            <Stack.Screen
+              name="MyDocumentsScreen"
+              options={{ headerShown: false }} >
+
+              {() => (
+                <Layout>
+                  <MyDocumentsScreen />
+                </Layout>
+              )}
+              
+            </Stack.Screen>
+
+            
             
             <Stack.Screen
               name="Profile"
@@ -124,3 +178,5 @@ function Loading() {
     </View>
   );
 }
+
+

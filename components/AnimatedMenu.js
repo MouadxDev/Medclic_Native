@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import {
   View,
@@ -16,6 +17,10 @@ const STATUS_BAR_HEIGHT = Platform.OS === 'android' ? StatusBar.currentHeight : 
 
 export default function AnimatedMenu({ isVisible, toggleMenu }) {
   const translateX = React.useRef(new Animated.Value(SCREEN_WIDTH)).current; // Start off-screen
+  const navigation = useNavigation();
+  const handleNavigation = (route) => {
+    navigation.navigate(route);
+  };
 
   React.useEffect(() => {
     Animated.timing(translateX, {
@@ -63,7 +68,7 @@ export default function AnimatedMenu({ isVisible, toggleMenu }) {
             <Text style={styles.menuItem}>Notifications</Text>
           </TouchableOpacity>
           <View style={styles.divider} />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => handleNavigation('Profile')}>
             <Text style={styles.menuItem}>Profil</Text>
           </TouchableOpacity>
           <TouchableOpacity>

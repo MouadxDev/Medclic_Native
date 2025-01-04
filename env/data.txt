@@ -179,3 +179,72 @@
   "totalPages": 5,
   "currentPage": 1
 }
+
+{
+  "data": [
+    {
+      "professionnel": "Dr Alami Karim",
+      "lieu": "Casablanca",
+      "dateDebut": "2023-10-01",
+      "dateFin": "2023-10-05"
+    },
+    {
+      "professionnel": "Dr Fouad Benali",
+      "lieu": "Rabat",
+      "dateDebut": "2023-10-02",
+      "dateFin": "2023-10-06"
+    },
+    {
+      "professionnel": "Dr Alami Karim",
+      "lieu": "Rabat",
+      "dateDebut": "2023-10-01",
+      "dateFin": "2023-10-03"
+    },
+    {
+      "professionnel": "Dr Fouad Benali",
+      "lieu": "Casablanca",
+      "dateDebut": "2023-10-05",
+      "dateFin": "2023-10-10"
+    },
+    {
+      "professionnel": "Dr Alami Karim",
+      "lieu": "Casablanca",
+      "dateDebut": "2023-10-10",
+      "dateFin": "2023-10-15"
+    },
+    {
+      "professionnel": "Dr Fouad Benali",
+      "lieu": "Rabat",
+      "dateDebut": "2023-10-12",
+      "dateFin": "2023-10-14"
+    },
+    {
+      "professionnel": "Dr Alami Karim",
+      "lieu": "Rabat",
+      "dateDebut": "2023-10-15",
+      "dateFin": "2023-10-20"
+    },
+    {
+      "professionnel": "Dr Fouad Benali",
+      "lieu": "Casablanca",
+      "dateDebut": "2023-10-18",
+      "dateFin": "2023-10-22"
+    },
+    {
+      "professionnel": "Dr Alami Karim",
+      "lieu": "Casablanca",
+      "dateDebut": "2023-10-20",
+      "dateFin": "2023-10-25"
+    },
+    {
+      "professionnel": "Dr Fouad Benali",
+      "lieu": "Rabat",
+      "dateDebut": "2023-10-25",
+      "dateFin": "2023-10-30"
+    }
+  ],
+  "currentPage": 1,
+  "totalPages": 2
+}
+
+

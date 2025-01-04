@@ -9,11 +9,15 @@ import {
   Modal,
   Dimensions,
 } from 'react-native';
-
+import Tooltip from 'react-native-walkthrough-tooltip';
 import Assets from './Assets';
+
+const MAX_LENGTH = 20
 
 export default function DynamicTable({
   columns,
+  CalledBy,
+  Actions,
   data,
   pagination,
   onActionClick,
@@ -22,6 +26,7 @@ export default function DynamicTable({
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const rowRefs = useRef([]);
 
+  
   const actions = [
     { key: 'rendezvous', label: 'Rendez-vous', icon: <Assets.Action.CalendarIcon /> },
     { key: 'suivis', label: 'Suivis', icon: <Assets.Action.SuiviIcon /> },
@@ -32,6 +37,7 @@ export default function DynamicTable({
     { key: 'notes', label: 'Notes', icon: <Assets.Action.NotesIcon /> },
     { key: 'bloquer', label: 'Bloquer', icon: <Assets.Action.BloquerIcon /> },
   ];
+  const shouldRenderActions = (CalledBy !== "ComplaintScreen" && actions.length > 0);
 
   const handleActionPress = (actionKey, row) => {
     onActionClick(actionKey, row);
@@ -47,41 +53,135 @@ export default function DynamicTable({
     // Measure the position of the pressed row
     rowRefs.current[index].measureInWindow((x, y, width, height) => {
       setModalPosition({
-        top: y + height,
+        top: y + height-300,
         left: x + width - 200, // Adjust based on your design
       });
       setSelectedRowIndex(index);
     });
   };
 
+  const TruncatedText = ({ text, style }) => {
+    const [showTooltip, setShowTooltip] = useState(false);
+    const shouldTruncate = text.length > MAX_LENGTH;
+    const truncatedText = shouldTruncate ? text.substring(0, MAX_LENGTH) + '...' : text;
+  
+    return (
+      <Tooltip
+        isVisible={showTooltip}
+        content={<Text style={{ color: '#FFFFFF' }}>{text}</Text>}  // Text color inside tooltip
+        contentStyle={{ backgroundColor: '#333333', padding: 10, borderRadius: 8 }}  // Tooltip background
+        placement="top"
+        onClose={() => setShowTooltip(false)}
+      >
+        <TouchableOpacity onPress={() => shouldTruncate && setShowTooltip(true)}>
+        <Text style={[style, showTooltip && { color: 'transparent' }]}>
+                  {truncatedText}
+                </Text>
+        </TouchableOpacity>
+      </Tooltip>
+    );
+  };
+  
   return (
     <View style={styles.container}>
       <ScrollView>
         <View style={styles.table}>
           {data.map((row, rowIndex) => (
-            <View 
-              key={rowIndex} 
+            <View
+              key={rowIndex}
               ref={(ref) => rowRefs.current[rowIndex] = ref}
-              style={styles.row}
-            >
+              style={[
+                styles.row,
+                CalledBy === "AbsenceScreen" && { paddingVertical: 20 }
+              ]}>
+
               {/* Row Data */}
-              {columns.map((column, index) => (
-                <View key={column.key} style={styles.cellFullRow}>
-                  <Text style={styles.cellLabel}>{column.label}:</Text>
-                  <Text
-                    style={[
-                      styles.cellValue,
+
+              {columns.map((column, index) => {
+                const highlightIndices =
+                  CalledBy === "AbsenceScreen"
+                      ? [2, 3]
+                    
+                    : CalledBy === "MyRDVsScreen" 
+                      ? [0]
+
+                    :CalledBy === "ComplaintScreen"
+                      ? [5,2]
+                    
+                    :CalledBy === "MyDocumentsScreen"
+                      ? [1,3,7]
                       
-                      (index === 1 || index === 4) && { color: '#6C87AE' }
+                      :[1, 4];
+
+                const customStyleIndices = 
+                  (CalledBy === "MyRDVsScreen") 
+                  ? [2] : 
+                  (CalledBy === "MyDocumentsScreen") 
+                  ? [5] :
+                  (CalledBy === "ComplaintScreen" ? 
+                  [1] : []);
+
+                
+                const statusStyleIndices =
+                  CalledBy === "MyRDVsScreen"  
+                    ? [5]
+                    : []; 
+                
+                return (
+                  <View
+                    key={column.key}
+                    style={[
+                      styles.cellFullRow,
                     ]}
                   >
-                    {row[column.key]}
-                  </Text>
-                </View>
-              ))}
+                    <Text style={styles.cellLabel}>{column.label}:</Text>
+                    {customStyleIndices.includes(index) ? (
+                      <View
+                        style={{
+                          backgroundColor: 'rgba(65, 132, 247, 0.1)',
+                          borderRadius: 16,
+                          paddingHorizontal: 11,
+                          paddingVertical: 7,
+                          alignSelf: 'flex-start', // Ensures the background only wraps the text
+                        }}
+                      >
+                        <Text style={[styles.cellValue, { color: '#4184F7' }]}>
+                          {row[column.key]}
+                        </Text>
+                      </View>
+                    ) : statusStyleIndices.includes(index) ? (
+                      
+                      <Text
+                        style={[
+                          styles.cellValue,
+                          row[column.key] === "À venir" && { color: '#2EA47C' }, // Green for "A venir"
+                          row[column.key] === "Annulé" && { color: '#E40D0D' }, // Red for "Annulé"
+                          row[column.key] === "En cours" && { color: '#F3B414' }, 
+                        ]}
+                      >
+                        {row[column.key]}
+                      </Text>
+
+                    ) : (
+
+                <TruncatedText 
+                    text={row[column.key]} 
+                    style={[
+                            styles.cellValue, 
+                            highlightIndices.includes(index) 
+                            && { color: '#6C87AE' }]} 
+                          />
+                    )}
+                    
+                  </View>
+                );
+              })}
+
+
 
               {/* Actions Trigger */}
-              {actions.length > 0 && (
+
+              {Actions && shouldRenderActions && (
                 <View style={styles.actionsCell}>
                   <TouchableOpacity
                     style={styles.actionDots}
@@ -91,6 +191,19 @@ export default function DynamicTable({
                   </TouchableOpacity>
                 </View>
               )}
+
+            { !shouldRenderActions && (
+                <View style={styles.actionsCell2}>
+                  <TouchableOpacity
+                    style={styles.actionDots}
+                  >
+                    <Assets.Action.Messagetriger />                    
+                  </TouchableOpacity>
+                </View>
+              )}
+
+
+
             </View>
           ))}
         </View>
@@ -102,17 +215,17 @@ export default function DynamicTable({
         visible={selectedRowIndex !== null}
         onRequestClose={() => setSelectedRowIndex(null)}
       >
-        <TouchableOpacity 
-          style={styles.modalOverlay} 
-          activeOpacity={1} 
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          activeOpacity={1}
           onPress={() => setSelectedRowIndex(null)}
         >
-          <View 
+          <View
             style={[
-              styles.actionModal, 
-              { 
-                top: modalPosition.top, 
-                left: modalPosition.left 
+              styles.actionModal,
+              {
+                top: modalPosition.top,
+                left: modalPosition.left
               }
             ]}
           >
@@ -142,7 +255,7 @@ export default function DynamicTable({
               !pagination.prev && styles.disabledButton,
             ]}
           >
-           ← Précédent
+            ← Précédent
           </Text>
           <Text style={styles.pageIndicator}>
             Page {pagination.current} of {pagination.total}
@@ -186,7 +299,8 @@ const styles = StyleSheet.create({
   cellFullRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingVertical: 4,
+    alignItems:'center',
+    paddingVertical: 6,
   },
   cellLabel: {
     fontSize: 14,
@@ -196,6 +310,7 @@ const styles = StyleSheet.create({
   },
   cellValue: {
     fontSize: 14,
+    paddingRight:3,
     color: '#333',
     textAlign: 'right',
     flex: 1,
@@ -204,6 +319,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     marginTop: 10,
+  },
+  actionsCell2: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
   actionDots: {
     padding: 10,

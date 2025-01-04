@@ -2,7 +2,7 @@ import * as React from "react"
 import Svg, { Path } from "react-native-svg"
 
 
-const Réclamations = (props) => (
+const Complaint = (props) => (
   <Svg
      
     width={20}
@@ -16,4 +16,4 @@ const Réclamations = (props) => (
     />
   </Svg>
 )
-export default Réclamations
+export default Complaint

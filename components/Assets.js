@@ -16,7 +16,7 @@ import Market from '../assets/sidebar/Market';
 import Paiements from '../assets/sidebar/Paiements';
 import Patients from '../assets/sidebar/Patients';
 import Prescriptions from '../assets/sidebar/Prescriptions';
-import Reclammations from '../assets/sidebar/Réclamations';
+import Complaint from '../assets/sidebar/Réclamations';
 import Statistiques from '../assets/sidebar/Statistiques';
 import Suivis from '../assets/sidebar/Suivis';
 import Dashboard from '../assets/sidebar/Dashboard';
@@ -32,6 +32,10 @@ import NotesIcon from '../assets/action/NotesIcon'
 import PrescriptionIcon from '../assets/action/PrescriptionIcon'
 import SuiviIcon from '../assets/action/SuiviIcon'
 import BloquerIcon from '../assets/action/Bloquer'
+import UpdownIcon from '../assets/action/Updown'
+import PlusIconFigma from '../assets/action/PlusIconFigma'
+import Messagetriger from '../assets/action/Messagetriger'
+
 
 
 import PatientstatIcon from '../assets/statCards/PatientstatCards';
@@ -48,6 +52,26 @@ import DmpIcon from '../assets/consultation/Dmp.js';
 import ObIcon from '../assets/consultation/Ob.js';
 import PreIcon from '../assets/consultation/Pre.js';
 import UserInfoIcon from '../assets/consultation/user_info.js';
+
+import Assu from '../assets/consultation/cards/Assu';
+import Cin from '../assets/consultation/cards/Cin';
+import Doc from '../assets/consultation/cards/Doc';
+import Allait from '../assets/consultation/cards/Allait';
+import Sem from '../assets/consultation/cards/Sem';
+import SmdIcon from '../assets/consultation/cards/SmdIcon';
+import InsIcon from '../assets/consultation/cards/InsIcon';
+import GrpSangIcon from '../assets/consultation/cards/GrpSangIcon';
+import TailleIcon from '../assets/consultation/cards/TailleIcon';
+import PoidsIcon from '../assets/consultation/cards/PoidsIcon';
+import SexIcon from '../assets/consultation/cards/SexIcon';
+import AgeIcon from '../assets/consultation/cards/AgeIcon';
+import MailIcon from '../assets/consultation/cards/MailIcon';
+import PhoneIcon from '../assets/consultation/cards/PhoneIcon';
+import UserIcon  from '../assets/consultation/cards/UserIcon';
+import CreatinIcon  from '../assets/consultation/cards/Creatine';
+
+import FunctionIcon  from '../assets/Icons/Function';
+
 
 
 // Export all assets
@@ -73,10 +97,12 @@ export const Assets = {
     Paiements,
     Patients,
     Prescriptions,
-    Reclammations,
+    Complaint,
     Statistiques,
     Suivis,
     Consultation,
+    
+    FunctionIcon,
   },
 
   statCards  :{
@@ -98,6 +124,9 @@ export const Assets = {
     SuiviIcon,
     PlusIcon,
     BloquerIcon,
+    UpdownIcon,
+    PlusIconFigma,
+    Messagetriger
   },
   Inputs:{
     DatepickerIcon,
@@ -109,7 +138,41 @@ export const Assets = {
     ObIcon,
     PreIcon,
     UserInfoIcon,
+    
+    Cards :{
+      Assu ,
+      Cin ,
+      Doc ,
+      Allait ,
+      Sem ,
+      SmdIcon ,
+      InsIcon ,
+      GrpSangIcon ,
+      TailleIcon ,
+      PoidsIcon ,
+      SexIcon ,
+      AgeIcon ,
+      MailIcon ,
+      PhoneIcon ,
+      UserIcon  ,
+      CreatinIcon,
+      
+    }
   }
 };
 
 export default Assets;
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

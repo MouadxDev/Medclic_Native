@@ -3,13 +3,11 @@ import { View, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { Assets } from './Assets';
 import sidebarData from '../static/menuData';
 import { useNavigation } from '@react-navigation/native';
+
 export default function Sidebar({  }) {
   const [activeSection, setActiveSection] = useState(null);
   const navigation = useNavigation();
   
-  // Sidebar data structure
-
-
   // Handle navigation when an icon is clicked
   const handleNavigation = (route) => {
     navigation.navigate(route);

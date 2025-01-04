@@ -61,13 +61,15 @@ export default function MyPatientsScreen() {
       const response = await patientsService.getByPage(page, filters);
       const { data, currentPage, totalPages } = response;
 
-      setPatientsData(data[0]);
+      setPatientsData(data);
+      
       setPagination({
         current: currentPage,
         total: totalPages,
         prev: currentPage > 1,
         next: currentPage < totalPages,
       });
+
     } catch (error) {
       console.error('Error fetching patients:', error.message);
     } finally {
@@ -104,6 +106,7 @@ export default function MyPatientsScreen() {
 
               {/* Filter Section */}
               <View style={styles.filters}>
+                
                 <TouchableOpacity style={styles.filterItem} onPress={() => setShowStartPicker(true)}>
                   <Text style={styles.filterText}>
                     {filters.startDate ? filters.startDate.toLocaleDateString() : 'Date du début'}
@@ -175,6 +178,7 @@ export default function MyPatientsScreen() {
                 next: handleNextPage,
                 prev: handlePrevPage,
               }}
+              Actions={true}
               onActionClick={(key, row) => console.log(`${key} clicked for`, row)}
             />
           );

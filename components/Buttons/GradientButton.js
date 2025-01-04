@@ -2,21 +2,22 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Assets from '../Assets';
-const GradientButton = ({ title, greeting, onButtonPress }) => {
+const GradientButton = ({ title, greeting, onButtonPress,Actions }) => {
   return (
     <View style={styles.container}>
       {/* Title Section */}
       <View style={styles.titleContainer}>
         <Text style={styles.title}>{title}</Text>
-        <TouchableOpacity onPress={onButtonPress} style={styles.buttonContainer}>
-          <LinearGradient
-            colors={['#37A5E8', '#255A9B']}
-            style={styles.gradientButton}>
-              
-              <Assets.Action.PlusIcon width={25} height={32} />
 
-          </LinearGradient>
-        </TouchableOpacity>
+        {Actions && (
+          <TouchableOpacity onPress={onButtonPress} style={styles.buttonContainer}>
+            <LinearGradient
+              colors={['#37A5E8', '#255A9B']}
+              style={styles.gradientButton}>
+              <Assets.Action.PlusIcon width={25} height={32} />
+            </LinearGradient>
+          </TouchableOpacity>
+        )}
       </View>
 
       {/* Subtitle Section */}
