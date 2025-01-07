@@ -7,7 +7,10 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { AutocompleteDropdown } from 'react-native-autocomplete-dropdown';
 import Assets from '../components/Assets';
 
+
 const MyRDVsScreen = () => {
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
+
   // State management
   const [rdvsData, setRdvsData] = useState([]);
   const [pagination, setPagination] = useState({ current: 1, total: 1, prev: false, next: true });
@@ -212,128 +215,138 @@ const MyRDVsScreen = () => {
 
   const renderHeader = () => (
     <View>
-      <GradientButton title="Rendez-vous à venir" onButtonPress={() => console.log('New RDV')} />
-
+         {/* Title and Button */}
+         <GradientButton 
+                  title="Rendez-vous à venir" 
+                  onButtonPress={() => showModal('NewPatientModal')} 
+                  Actions={true} 
+                  Filters={true} 
+                  onFiltersPress={() => setIsFilterVisible(!isFilterVisible)} 
+                  />
       {/* Filters Section */}
-      <View style={styles.filters}>
-        {/* Dropdown with filters */}
-        <View style={styles.FilterContainer}>
-          <AutocompleteDropdown
-            clearOnFocus={false}
-            closeOnSubmit={true}
+      {isFilterVisible && (
+          <View style={styles.filters}>
+            {/* Dropdown with filters */}
+            <View style={styles.FilterContainer}>
+              <AutocompleteDropdown
+                clearOnFocus={false}
+                closeOnSubmit={true}
 
-            dataSet={Patients}
-            onSelectItem={(item) => {
-              console.log('Selected item:', item);
-              setSelectedItem(item);
-            }}
-            textInputProps={{
-              placeholder: "Rechercher un patient",
-              autoCorrect: false,
-              autoCapitalize: "none",
-              style: {
-                borderRadius: 8,
-                backgroundColor: '#fff',
-                color: '#333333',
-                fontSize: 15,
-                paddingLeft: 15,
-              }
-            }}
+                dataSet={Patients}
+                onSelectItem={(item) => {
+                  console.log('Selected item:', item);
+                  setSelectedItem(item);
+                }}
+                textInputProps={{
+                  placeholder: "Rechercher un patient",
+                  autoCorrect: false,
+                  autoCapitalize: "none",
+                  style: {
+                    borderRadius: 8,
+                    backgroundColor: '#fff',
+                    color: '#333333',
+                    fontSize: 15,
+                    paddingLeft: 15,
+                  }
+                }}
 
-            containerStyle={styles.dropdownContainer}
-            inputContainerStyle={{
-              backgroundColor: '#fff',
-              borderRadius: 8,
-              borderColor: '#ddd',
-            }}
+                containerStyle={styles.dropdownContainer}
+                inputContainerStyle={{
+                  backgroundColor: '#fff',
+                  borderRadius: 8,
+                  borderColor: '#ddd',
+                }}
 
-          />
-        </View>
-        <TouchableOpacity style={styles.filterItem} onPress={() => setShowStartPicker(true)}>
-          <Text style={styles.filterText}>
-            {filters.startDate ? filters.startDate.toLocaleDateString() : 'Date du début'}
-          </Text>
-          <Assets.Inputs.DatepickerIcon />
-        </TouchableOpacity>
-r
-        <TouchableOpacity style={styles.filterItem} onPress={() => setShowEndPicker(true)}>
-          <Text style={styles.filterText}>
-            {filters.endDate ? filters.endDate.toLocaleDateString() : 'Date de fin'}
-          </Text>
-          <Assets.Inputs.DatepickerIcon />
-        </TouchableOpacity>
-        <View style={{ zIndex: serviceOpen ? 5000 : 1 }}>
-          <DropDownPicker
-            open={serviceOpen}
-            value={filters.service}
-            items={servicesOptions}
-            setOpen={setServiceOpen}
-            setValue={(callback) => setFilters((prev) => ({ ...prev, service: callback(prev.service) }))}
-            placeholder="Service"
-            style={styles.dropdown}
-            dropDownContainerStyle={styles.dropdownMenu}
-          />
-        </View>
+              />
+            </View>
+            <TouchableOpacity style={styles.filterItem} onPress={() => setShowStartPicker(true)}>
+              <Text style={styles.filterText}>
+                {filters.startDate ? filters.startDate.toLocaleDateString() : 'Date du début'}
+              </Text>
+              <Assets.Inputs.DatepickerIcon />
+            </TouchableOpacity>
+    r
+            <TouchableOpacity style={styles.filterItem} onPress={() => setShowEndPicker(true)}>
+              <Text style={styles.filterText}>
+                {filters.endDate ? filters.endDate.toLocaleDateString() : 'Date de fin'}
+              </Text>
+              <Assets.Inputs.DatepickerIcon />
+            </TouchableOpacity>
+            <View style={{ zIndex: serviceOpen ? 5000 : 1 }}>
+              <DropDownPicker
+                open={serviceOpen}
+                value={filters.service}
+                items={servicesOptions}
+                setOpen={setServiceOpen}
+                setValue={(callback) => setFilters((prev) => ({ ...prev, service: callback(prev.service) }))}
+                placeholder="Service"
+                style={styles.dropdown}
+                dropDownContainerStyle={styles.dropdownMenu}
+              />
+            </View>
 
-        <View style={{ zIndex: typeOpen ? 4000 : 1 }}>
-          <DropDownPicker
-            open={typeOpen}
-            value={filters.type}
-            items={typeOptions}
-            setOpen={setTypeOpen}
-            setValue={(callback) => setFilters((prev) => ({ ...prev, type: callback(prev.type) }))}
-            placeholder="Type de RDV"
-            style={styles.dropdown}
-            dropDownContainerStyle={styles.dropdownMenu}
-          />
-        </View>
+            <View style={{ zIndex: typeOpen ? 4000 : 1 }}>
+              <DropDownPicker
+                open={typeOpen}
+                value={filters.type}
+                items={typeOptions}
+                setOpen={setTypeOpen}
+                setValue={(callback) => setFilters((prev) => ({ ...prev, type: callback(prev.type) }))}
+                placeholder="Type de RDV"
+                style={styles.dropdown}
+                dropDownContainerStyle={styles.dropdownMenu}
+              />
+            </View>
 
-        <View style={{ zIndex: locationOpen ? 3000 : 1 }}>
-          <DropDownPicker
-            open={locationOpen}
-            value={filters.location}
-            items={locationsOptions}
-            setOpen={setLocationOpen}
-            setValue={(callback) => setFilters((prev) => ({ ...prev, location: callback(prev.location) }))}
-            placeholder="Lieu"
-            style={styles.dropdown}
-            dropDownContainerStyle={styles.dropdownMenu}
-          />
-        </View>
+            <View style={{ zIndex: locationOpen ? 3000 : 1 }}>
+              <DropDownPicker
+                open={locationOpen}
+                value={filters.location}
+                items={locationsOptions}
+                setOpen={setLocationOpen}
+                setValue={(callback) => setFilters((prev) => ({ ...prev, location: callback(prev.location) }))}
+                placeholder="Lieu"
+                style={styles.dropdown}
+                dropDownContainerStyle={styles.dropdownMenu}
+              />
+            </View>
 
-        <View style={{ zIndex: statusOpen ? 2000 : 1 }}>
-          <DropDownPicker
-            open={statusOpen}
-            value={filters.status}
-            items={statusOptions}
-            setOpen={setStatusOpen}
-            setValue={(callback) => setFilters((prev) => ({ ...prev, status: callback(prev.status) }))}
-            placeholder="Status"
-            style={styles.dropdown}
-            dropDownContainerStyle={styles.dropdownMenu}
-          />
-        </View>
+            <View style={{ zIndex: statusOpen ? 2000 : 1 }}>
+              <DropDownPicker
+                open={statusOpen}
+                value={filters.status}
+                items={statusOptions}
+                setOpen={setStatusOpen}
+                setValue={(callback) => setFilters((prev) => ({ ...prev, status: callback(prev.status) }))}
+                placeholder="Status"
+                style={styles.dropdown}
+                dropDownContainerStyle={styles.dropdownMenu}
+              />
+            </View>
 
-        {/* Render Date Pickers */}
-        {showStartPicker && (
-          <DateTimePicker
-            value={filters.startDate || new Date()}
-            mode="date"
-            display="default"
-            onChange={onStartDateChange}
-          />
-        )}
+            {/* Render Date Pickers */}
+            {showStartPicker && (
+              <DateTimePicker
+                value={filters.startDate || new Date()}
+                mode="date"
+                display="default"
+                onChange={onStartDateChange}
+              />
+            )}
 
-        {showEndPicker && (
-          <DateTimePicker
-            value={filters.endDate || new Date()}
-            mode="date"
-            display="default"
-            onChange={onEndDateChange}
-          />
-        )}
-        <GradientFiltreButton title="Filtrer" onPress={() => fetchRDVs(1)} style={styles.filterButton} />
-      </View>
+            {showEndPicker && (
+              <DateTimePicker
+                value={filters.endDate || new Date()}
+                mode="date"
+                display="default"
+                onChange={onEndDateChange}
+              />
+            )}
+            <GradientFiltreButton title="Filtrer" onPress={() => fetchRDVs(1)} style={styles.filterButton} />
+          </View>
+              )}
+
+
     </View>
   );
 

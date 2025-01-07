@@ -22,6 +22,7 @@ export default function DynamicTable({
   pagination,
   onActionClick,
 }) {
+  const highlightedRows =  CalledBy === "FseScreen" ? [2, 3, 4] : []; 
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
   const rowRefs = useRef([]);
@@ -87,13 +88,15 @@ export default function DynamicTable({
       <ScrollView>
         <View style={styles.table}>
           {data.map((row, rowIndex) => (
+            
             <View
-              key={rowIndex}
-              ref={(ref) => rowRefs.current[rowIndex] = ref}
-              style={[
-                styles.row,
-                CalledBy === "AbsenceScreen" && { paddingVertical: 20 }
-              ]}>
+            key={rowIndex}
+            ref={(ref) => rowRefs.current[rowIndex] = ref}
+            style={[
+              styles.row,
+              CalledBy === "AbsenceScreen" && { paddingVertical: 20 },
+            ]}
+          >
 
               {/* Row Data */}
 
@@ -110,6 +113,8 @@ export default function DynamicTable({
                     
                     :CalledBy === "MyDocumentsScreen"
                       ? [1,3,7]
+                    :CalledBy === "FseScreen"
+                      ? [0]
                       
                       :[1, 4];
 
@@ -123,9 +128,13 @@ export default function DynamicTable({
 
                 
                 const statusStyleIndices =
-                  CalledBy === "MyRDVsScreen"  
-                    ? [5]
-                    : []; 
+                (CalledBy === "MyRDVsScreen")  
+                    ? [5]:
+                (CalledBy === "FseScreen")
+                    ? [5] :
+                      []; 
+
+                
                 
                 return (
                   <View
@@ -134,7 +143,7 @@ export default function DynamicTable({
                       styles.cellFullRow,
                     ]}
                   >
-                    <Text style={styles.cellLabel}>{column.label}:</Text>
+                    <Text style={[styles.cellLabel]}>{column.label}:</Text>
                     {customStyleIndices.includes(index) ? (
                       <View
                         style={{
@@ -142,7 +151,7 @@ export default function DynamicTable({
                           borderRadius: 16,
                           paddingHorizontal: 11,
                           paddingVertical: 7,
-                          alignSelf: 'flex-start', // Ensures the background only wraps the text
+                          alignSelf: 'flex-start', 
                         }}
                       >
                         <Text style={[styles.cellValue, { color: '#4184F7' }]}>
@@ -152,15 +161,15 @@ export default function DynamicTable({
                     ) : statusStyleIndices.includes(index) ? (
                       
                       <Text
-                        style={[
-                          styles.cellValue,
-                          row[column.key] === "À venir" && { color: '#2EA47C' }, // Green for "A venir"
-                          row[column.key] === "Annulé" && { color: '#E40D0D' }, // Red for "Annulé"
-                          row[column.key] === "En cours" && { color: '#F3B414' }, 
-                        ]}
-                      >
-                        {row[column.key]}
-                      </Text>
+                          style={[
+                            styles.cellValue,
+                            (row[column.key] === "À venir" || row[column.key] === "Remboursée") && { color: '#2EA47C' }, 
+                            (row[column.key] === "Annulé" || row[column.key] === "A rembourser") && { color: '#E40D0D' }, 
+                            (row[column.key] === "En cours" || row[column.key] === "Demande") && { color: '#F3B414' }, 
+                          ]}
+                        >
+                      {row[column.key]}
+                    </Text>
 
                     ) : (
 
@@ -301,6 +310,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems:'center',
     paddingVertical: 6,
+    
   },
   cellLabel: {
     fontSize: 14,

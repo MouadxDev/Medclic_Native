@@ -11,6 +11,8 @@ import { Patients } from '../services/Patients';
 export default function MyPatientsScreen() {
   const { showModal } = useModal();
   const patientsService = new Patients();
+  
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
 
   // State management
   const [patientsData, setPatientsData] = useState([]);
@@ -102,67 +104,76 @@ export default function MyPatientsScreen() {
           return (
             <>
               {/* Title and Button */}
-              <GradientButton title="Mes patients" onButtonPress={() => showModal('NewPatientModal')} />
+              <GradientButton 
+                  title="Mes patients" 
+                  onButtonPress={() => showModal('NewPatientModal')} 
+                  Actions={true} 
+                  Filters={true} 
+                  onFiltersPress={() => setIsFilterVisible(!isFilterVisible)} 
+                  />
 
               {/* Filter Section */}
-              <View style={styles.filters}>
-                
-                <TouchableOpacity style={styles.filterItem} onPress={() => setShowStartPicker(true)}>
-                  <Text style={styles.filterText}>
-                    {filters.startDate ? filters.startDate.toLocaleDateString() : 'Date du début'}
-                  </Text>
-                  <Assets.Inputs.DatepickerIcon />
-                </TouchableOpacity>
 
-                <TouchableOpacity style={styles.filterItem} onPress={() => setShowEndPicker(true)}>
-                  <Text style={styles.filterText}>
-                    {filters.endDate ? filters.endDate.toLocaleDateString() : 'Date de fin'}
-                  </Text>
-                  <Assets.Inputs.DatepickerIcon />
-                </TouchableOpacity>
+              {isFilterVisible && (
+                <View style={styles.filters}>
+                  
+                  <TouchableOpacity style={styles.filterItem} onPress={() => setShowStartPicker(true)}>
+                    <Text style={styles.filterText}>
+                      {filters.startDate ? filters.startDate.toLocaleDateString() : 'Date du début'}
+                    </Text>
+                    <Assets.Inputs.DatepickerIcon />
+                  </TouchableOpacity>
 
-                {/* Render Date Pickers */}
-                {showStartPicker && (
-                  <DateTimePicker
-                    value={filters.startDate || new Date()}
-                    mode="date"
-                    display="default"
-                    onChange={onStartDateChange}
-                  />
-                )}
-                {showEndPicker && (
-                  <DateTimePicker
-                    value={filters.endDate || new Date()}
-                    mode="date"
-                    display="default"
-                    onChange={onEndDateChange}
-                  />
-                )}
+                  <TouchableOpacity style={styles.filterItem} onPress={() => setShowEndPicker(true)}>
+                    <Text style={styles.filterText}>
+                      {filters.endDate ? filters.endDate.toLocaleDateString() : 'Date de fin'}
+                    </Text>
+                    <Assets.Inputs.DatepickerIcon />
+                  </TouchableOpacity>
 
-                <View style={styles.dropdownContainer}>
-                  <DropDownPicker
-                    open={open}
-                    setOpen={setOpen}
-                    value={filters.status}
-                    items={statusOptions}
-                    setValue={(callback) =>
-                      setFilters((prevFilters) => ({
-                        ...prevFilters,
-                        status: callback(prevFilters.status),
-                      }))
-                    }
-                    placeholder="Select status"
-                    style={styles.dropdown}
-                    dropDownContainerStyle={styles.dropdownMenu}
+                  {/* Render Date Pickers */}
+                  {showStartPicker && (
+                    <DateTimePicker
+                      value={filters.startDate || new Date()}
+                      mode="date"
+                      display="default"
+                      onChange={onStartDateChange}
+                    />
+                  )}
+                  {showEndPicker && (
+                    <DateTimePicker
+                      value={filters.endDate || new Date()}
+                      mode="date"
+                      display="default"
+                      onChange={onEndDateChange}
+                    />
+                  )}
+
+                  <View style={styles.dropdownContainer}>
+                    <DropDownPicker
+                      open={open}
+                      setOpen={setOpen}
+                      value={filters.status}
+                      items={statusOptions}
+                      setValue={(callback) =>
+                        setFilters((prevFilters) => ({
+                          ...prevFilters,
+                          status: callback(prevFilters.status),
+                        }))
+                      }
+                      placeholder="Select status"
+                      style={styles.dropdown}
+                      dropDownContainerStyle={styles.dropdownMenu}
+                    />
+                  </View>
+
+                  <GradientFiltreButton
+                    title="Filtrer"
+                    onPress={() => fetchPatients(1)} 
+                    style={{ alignSelf: 'center', marginTop: 20, width: '100%' }}
                   />
                 </View>
-
-                <GradientFiltreButton
-                  title="Filtrer"
-                  onPress={() => fetchPatients(1)} 
-                  style={{ alignSelf: 'center', marginTop: 20, width: '100%' }}
-                />
-              </View>
+              )}
             </>
           );
         }

@@ -21,6 +21,7 @@ import AbsencesScreen from '../screens/AbsencesScreen';
 import MyRDVsScreen from '../screens/MyRDVsScreen';
 import ComplaintScreen from '../screens/ComplaintScreen';
 import MyDocumentsScreen from '../screens/MyDocumentsScreen';
+import FseScreen from '../screens/FseScreen';
 
 
 
@@ -132,6 +133,18 @@ export default function Router() {
               {() => (
                 <Layout>
                   <MyDocumentsScreen />
+                </Layout>
+              )}
+              
+            </Stack.Screen>
+
+            <Stack.Screen
+              name="FseScreen"
+              options={{ headerShown: false }} >
+
+              {() => (
+                <Layout>
+                  <FseScreen />
                 </Layout>
               )}
               

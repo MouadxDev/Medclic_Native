@@ -35,6 +35,11 @@ import BloquerIcon from '../assets/action/Bloquer'
 import UpdownIcon from '../assets/action/Updown'
 import PlusIconFigma from '../assets/action/PlusIconFigma'
 import Messagetriger from '../assets/action/Messagetriger'
+import FiltersOn from '../assets/action/FiltersOn'
+import FiltersOff from '../assets/action/FiltersOff'
+
+
+
 
 
 
@@ -126,7 +131,9 @@ export const Assets = {
     BloquerIcon,
     UpdownIcon,
     PlusIconFigma,
-    Messagetriger
+    Messagetriger,
+    FiltersOn,
+    FiltersOff,
   },
   Inputs:{
     DatepickerIcon,

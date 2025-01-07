@@ -13,6 +13,7 @@ import { Absences } from '../services/Absences';
 const AbsencesScreen = () => {
   const { showModal } = useModal();
   const absencesService = new Absences();
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
 
   // State management
   const [absencesData, setAbsencesData] = useState([]);
@@ -100,108 +101,114 @@ const AbsencesScreen = () => {
     return (
       <View>
         {/* Title and Button */}
-        <GradientButton title="Absences" onButtonPress={() => showModal('NewAbsenceModal')} />
-
-        {/* Filter Section */}
-        <View style={styles.filters}>
-          <TouchableOpacity style={styles.filterItem} onPress={() => setShowStartPicker(true)}>
-            <Text style={styles.filterText}>
-              {filters.startDate? filters.startDate.toLocaleDateString() : 'Date du début'}
-            </Text>
-            <Assets.Inputs.DatepickerIcon />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.filterItem} onPress={() => setShowEndPicker(true)}>
-            <Text style={styles.filterText}>
-              {filters.endDate? filters.endDate.toLocaleDateString() : 'Date de fin'}
-            </Text>
-            <Assets.Inputs.DatepickerIcon />
-          </TouchableOpacity>
-
-          {/* Render Date Pickers */}
-          {showStartPicker && (
-            <DateTimePicker
-              value={filters.startDate || new Date()}
-              mode="date"
-              display="default"
-              onChange={(event, selectedDate) => handleDateChange('start', selectedDate)}
-            />
-          )}
-          {showEndPicker && (
-            <DateTimePicker
-              value={filters.endDate || new Date()}
-              mode="date"
-              display="default"
-              onChange={(event, selectedDate) => handleDateChange('end', selectedDate)}
-            />
-          )}
-
-          {/* Dropdown with filters */}
-          <View style={styles.FilterContainer}>
-          <AutocompleteDropdown
-              clearOnFocus={false}
-              closeOnSubmit={true}
-              dataSet={professionalsOptions.map((item) => ({
-                id: item.value,
-                title: item.label,
-              }))}
-              onSelectItem={(item) => {
-                console.log('Selected item:', item);
-                setFilters((prevFilters) => ({ ...prevFilters, professional: item ? item.id : '' }));
-              }}
-              textInputProps={{
-                placeholder: "Rechercher un professionnel",
-                autoCorrect: false,
-                autoCapitalize: "none",
-                style: {
-                  borderRadius: 8,
-                  backgroundColor: '#fff',
-                  color: '#333333',
-                  fontSize: 15,
-                  paddingLeft: 15,
-                  height: 50,
-                },
-              }}
-              containerStyle={styles.dropdownContainer}
-              inputContainerStyle={{
-                backgroundColor: '#fff',
-                borderRadius: 8,
-                borderColor: '#ddd',
-              }}
-              ChevronIconComponent={
-                <Assets.Action.UpdownIcon
-                  style={{
-                    paddingTop: 30,
-                    height: 0, 
-                    width: 0, 
-                    transform: [{ rotate: '180deg' }], // Rotate the icon by 180 degrees
-                  }}
-                />
-              }
-            />
-
-          </View>
-
-          <View style={styles.dropdownContainer}>
-            <DropDownPicker
-              open={locationsOpen}
-              setOpen={setLocationsOpen}
-              value={filters.location}
-              items={locationsOptions}
-              setValue={(callback) =>
-                setFilters((prevFilters) => ({...prevFilters, location: callback(prevFilters.location) }))}
-              placeholder="Lieu"
-              style={styles.dropdown}
-              dropDownContainerStyle={styles.dropdownMenu}
-            />
-          </View>
-
-          <GradientFiltreButton
-            title="Filtrer"
-            onPress={() => fetchAbsences(1)}
-            style={{ alignSelf: 'center', marginTop: 20, width: '100%' }}
+        <GradientButton
+            title="Absences"
+            onButtonPress={() => showModal('NewAbsenceModal')}
+            Filters={true}
+            onFiltersPress={() => setIsFilterVisible(!isFilterVisible)}
           />
-        </View>
+        {/* Filter Section */}
+        {isFilterVisible && (
+            <View style={styles.filters}>
+              <TouchableOpacity style={styles.filterItem} onPress={() => setShowStartPicker(true)}>
+                <Text style={styles.filterText}>
+                  {filters.startDate? filters.startDate.toLocaleDateString() : 'Date du début'}
+                </Text>
+                <Assets.Inputs.DatepickerIcon />
+              </TouchableOpacity>
+
+              <TouchableOpacity style={styles.filterItem} onPress={() => setShowEndPicker(true)}>
+                <Text style={styles.filterText}>
+                  {filters.endDate? filters.endDate.toLocaleDateString() : 'Date de fin'}
+                </Text>
+                <Assets.Inputs.DatepickerIcon />
+              </TouchableOpacity>
+
+              {/* Render Date Pickers */}
+              {showStartPicker && (
+                <DateTimePicker
+                  value={filters.startDate || new Date()}
+                  mode="date"
+                  display="default"
+                  onChange={(event, selectedDate) => handleDateChange('start', selectedDate)}
+                />
+              )}
+              {showEndPicker && (
+                <DateTimePicker
+                  value={filters.endDate || new Date()}
+                  mode="date"
+                  display="default"
+                  onChange={(event, selectedDate) => handleDateChange('end', selectedDate)}
+                />
+              )}
+
+              {/* Dropdown with filters */}
+              <View style={styles.FilterContainer}>
+              <AutocompleteDropdown
+                  clearOnFocus={false}
+                  closeOnSubmit={true}
+                  dataSet={professionalsOptions.map((item) => ({
+                    id: item.value,
+                    title: item.label,
+                  }))}
+                  onSelectItem={(item) => {
+                    console.log('Selected item:', item);
+                    setFilters((prevFilters) => ({ ...prevFilters, professional: item ? item.id : '' }));
+                  }}
+                  textInputProps={{
+                    placeholder: "Rechercher un professionnel",
+                    autoCorrect: false,
+                    autoCapitalize: "none",
+                    style: {
+                      borderRadius: 8,
+                      backgroundColor: '#fff',
+                      color: '#333333',
+                      fontSize: 15,
+                      paddingLeft: 15,
+                      height: 50,
+                    },
+                  }}
+                  containerStyle={styles.dropdownContainer}
+                  inputContainerStyle={{
+                    backgroundColor: '#fff',
+                    borderRadius: 8,
+                    borderColor: '#ddd',
+                  }}
+                  ChevronIconComponent={
+                    <Assets.Action.UpdownIcon
+                      style={{
+                        paddingTop: 30,
+                        height: 0, 
+                        width: 0, 
+                        transform: [{ rotate: '180deg' }], // Rotate the icon by 180 degrees
+                      }}
+                    />
+                  }
+                />
+
+              </View>
+
+              <View style={styles.dropdownContainer}>
+                <DropDownPicker
+                  open={locationsOpen}
+                  setOpen={setLocationsOpen}
+                  value={filters.location}
+                  items={locationsOptions}
+                  setValue={(callback) =>
+                    setFilters((prevFilters) => ({...prevFilters, location: callback(prevFilters.location) }))}
+                  placeholder="Lieu"
+                  style={styles.dropdown}
+                  dropDownContainerStyle={styles.dropdownMenu}
+                />
+              </View>
+
+              <GradientFiltreButton
+                title="Filtrer"
+                onPress={() => fetchAbsences(1)}
+                style={{ alignSelf: 'center', marginTop: 20, width: '100%' }}
+              />
+            </View>
+          )}
       </View>
     );
   };

@@ -14,7 +14,7 @@ const sidebarData = [
         { icon: 'Absences', route: 'AbsencesScreen' },
         { icon: 'Complaint', route: 'ComplaintScreen' },
         { icon: 'DMP', route: 'DMP' },
-        { icon: 'FSE', route: 'FSE' },
+        { icon: 'FSE', route: 'FseScreen' },
         { icon: 'Paiements', route: 'Paiements' },
         { icon: 'Statistiques', route: 'Statistiques' },
         { icon: 'Consultation', route: 'ConsultationScreen' },
