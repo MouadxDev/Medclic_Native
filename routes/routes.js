@@ -22,6 +22,10 @@ import MyRDVsScreen from '../screens/MyRDVsScreen';
 import ComplaintScreen from '../screens/ComplaintScreen';
 import MyDocumentsScreen from '../screens/MyDocumentsScreen';
 import FseScreen from '../screens/FseScreen';
+import DroitScreen from '../screens/DroitScreen';
+import DemandScreen from '../screens/DemandScreen';
+import FseDetailsScreen from '../screens/FseDetailsScree';
+import AvisAiScreen from '../screens/AvisAiScreen';
 
 
 
@@ -139,6 +143,32 @@ export default function Router() {
             </Stack.Screen>
 
             <Stack.Screen
+              name="DemandScreen"
+              options={{ headerShown: false }} >
+                
+              {() => (
+                <Layout>
+                  <DemandScreen />
+                </Layout>
+              )}
+              
+            </Stack.Screen>
+
+            
+
+            <Stack.Screen
+              name="DroitScreen"
+              options={{ headerShown: false }} >
+
+              {() => (
+                <Layout>
+                  <DroitScreen />
+                </Layout>
+              )}
+              
+            </Stack.Screen>
+
+            <Stack.Screen
               name="FseScreen"
               options={{ headerShown: false }} >
 
@@ -148,6 +178,28 @@ export default function Router() {
                 </Layout>
               )}
               
+            </Stack.Screen>
+
+            <Stack.Screen
+              name="FseDetailsScreen"
+              options={{ headerShown: false }}
+            >
+              {({ route }) => (
+                <Layout>
+                  <FseDetailsScreen route={route} />
+                </Layout>
+              )}
+            </Stack.Screen>
+
+            <Stack.Screen
+              name="AvisAiScreen"
+              options={{ headerShown: false }}
+            >
+              {({ route }) => (
+                <Layout>
+                  <AvisAiScreen route={route} />
+                </Layout>
+              )}
             </Stack.Screen>
 
             

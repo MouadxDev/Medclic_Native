@@ -18,6 +18,7 @@ const STATUS_BAR_HEIGHT = Platform.OS === 'android' ? StatusBar.currentHeight : 
 export default function AnimatedMenu({ isVisible, toggleMenu }) {
   const translateX = React.useRef(new Animated.Value(SCREEN_WIDTH)).current; // Start off-screen
   const navigation = useNavigation();
+  
   const handleNavigation = (route) => {
     navigation.navigate(route);
   };
@@ -71,7 +72,7 @@ export default function AnimatedMenu({ isVisible, toggleMenu }) {
           <TouchableOpacity onPress={() => handleNavigation('Profile')}>
             <Text style={styles.menuItem}>Profil</Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => handleNavigation('DroitScreen')}>
             <Text style={styles.menuItem}>Droits</Text>
           </TouchableOpacity>
           <TouchableOpacity>

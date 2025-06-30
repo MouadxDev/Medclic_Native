@@ -35,13 +35,16 @@ const FseScreen = () => {
     { key: 'assure', label: 'Assuré' }, 
     { key: 'beneficiaire', label: 'Bénéficiaire' },
     { key: 'montantTotal', label: 'Montant Total' }, 
-    { key: 'amoStatut', label: 'AMO Statut' }, 
-    { key: 'amoRembourse', label: 'AMO Remboursé' }, 
+    { key: 'amo', label: 'AMO' },
+    { key: 'statut', label: 'Statut' },
+    { key: 'amoaRembourse', label: 'A Rembourser' },
+    { key: 'amoRembourse', label: 'Remboursé' }, 
     { key: 'amoReste', label: 'AMO Reste' }, 
-    { key: 'amcStatut', label: 'AMC Statut' }, 
-    { key: 'amcRembourse', label: 'AMC Remboursé' }, 
-    { key: 'amcReste', label: 'AMC Reste' }, 
-    { key: 'details', label: 'Details' } 
+    { key: 'amc', label: 'AMC' }, 
+    { key: 'amcStatut', label: 'Statut' }, 
+    { key: 'amcaRembourse', label: 'A Remboursé' }, 
+    { key: 'amcRembourse', label: 'Remboursé' }, 
+    { key: 'amcReste', label: 'Reste' }, 
   ];
   
 
@@ -61,49 +64,59 @@ const FseScreen = () => {
       // Simulate API call
       const data = [
         {
-            dossier: 'FSE080447',
-            date: '2023-12-15',
-            assure: 'John Doe',
-            beneficiaire: 'Jane Doe',
-            montantTotal: '5000',
-            amoStatut: 'A rembourser',
-            amoRembourse: '3000',
-            amoReste: '2000',
-            amcStatut: 'Remboursé',
-            amcRembourse: '2000',
-            amcReste: '0',
-            details: 'Details here',
-          },
-          {
-            dossier: 'FSE080448',
-            date: '2023-12-16',
-            assure: 'Alice Smith',
-            beneficiaire: 'Bob Smith',
-            montantTotal: '4000',
-            amoStatut: 'Demande',
-            amoRembourse: '2000',
-            amoReste: '2000',
-            amcStatut: 'Remboursée',
-            amcRembourse: '1000',
-            amcReste: '1000',
-            details: 'Details here',
-          },
-          {
-            dossier: 'FSE080449',
-            date: '2023-12-17',
-            assure: 'Michael Brown',
-            beneficiaire: 'Sarah Brown',
-            montantTotal: '6000',
-            amoStatut: 'Remboursé',
-            amoRembourse: '6000',
-            amoReste: '0',
-            amcStatut: 'Remboursé',
-            amcRembourse: '6000',
-            amcReste: '0',
-            details: 'Details here',
-          },
+          dossier: 'FSE080447',
+          date: '2023-12-15',
+          assure: 'John Doe',
+          beneficiaire: 'Jane Doe',
+          montantTotal: '5000',
+          amo: 'CNSS',
+          statut: 'A rembourser',
+          amoaRembourse: '0',
+          amoRembourse: '3000',
+          amoReste: '2000',
+          amc: 'AMC Provider',
+          amcStatut: 'Remboursé',
+          amcaRembourse: '0',
+          amcRembourse: '2000',
+          amcReste: '0',
+        },
+        {
+          dossier: 'FSE080448',
+          date: '2023-12-16',
+          assure: 'Alice Smith',
+          beneficiaire: 'Bob Smith',
+          montantTotal: '4000',
+          amo: 'CNSS',
+          statut: 'Demande',
+          amoaRembourse: '0',
+          amoRembourse: '2000',
+          amoReste: '2000',
+          amc: 'AMC Provider',
+          amcStatut: 'Remboursée',
+          amcaRembourse: '0',
+          amcRembourse: '1000',
+          amcReste: '1000',
+        },
+        {
+          dossier: 'FSE080449',
+          date: '2023-12-17',
+          assure: 'Michael Brown',
+          beneficiaire: 'Sarah Brown',
+          montantTotal: '6000',
+          amo: 'CNSS',
+          statut: 'Remboursé',
+          amoaRembourse: '0',
+          amoRembourse: '6000',
+          amoReste: '0',
+          amc: 'AMC Provider',
+          amcStatut: 'Remboursé',
+          amcaRembourse: '0',
+          amcRembourse: '6000',
+          amcReste: '0',
+        },
+      ];
+      
 
-      ]; 
       setFseData(data);
       setPagination({
         current: page,
@@ -126,6 +139,7 @@ const FseScreen = () => {
     <View>
       <GradientButton
         title="Suivi des dossiers"
+        Actions={true}
         Filters={true}
         onFiltersPress={() => setIsFilterVisible(!isFilterVisible)}
       />
@@ -226,7 +240,7 @@ const FseScreen = () => {
         next: () => fetchFseData(pagination.current + 1),
         prev: () => fetchFseData(pagination.current - 1)
       }}
-      Actions={false}
+      Actions={true}
       CalledBy="FseScreen"
     />
   );

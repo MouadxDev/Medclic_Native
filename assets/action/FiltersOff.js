@@ -8,7 +8,7 @@ const FiltersOff = (props) => (
     {...props}
   >
     <Path
-      stroke="#4b5563"
+      stroke="#fdfdfd"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={2}

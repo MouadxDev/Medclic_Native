@@ -21,6 +21,10 @@ import Statistiques from '../assets/sidebar/Statistiques';
 import Suivis from '../assets/sidebar/Suivis';
 import Dashboard from '../assets/sidebar/Dashboard';
 import Consultation from '../assets/sidebar/Consultation';
+import ClipboardIcon from '../assets/sidebar/ClipboardIcon';
+import AvisAi from '../assets/sidebar/AvisAi';
+
+
 
 import Menu from '../assets/action/Menu';
 import Dotes from '../assets/action/Dotes';
@@ -37,8 +41,7 @@ import PlusIconFigma from '../assets/action/PlusIconFigma'
 import Messagetriger from '../assets/action/Messagetriger'
 import FiltersOn from '../assets/action/FiltersOn'
 import FiltersOff from '../assets/action/FiltersOff'
-
-
+import DetailsIcon from '../assets/action/DetailsIcon'
 
 
 
@@ -51,6 +54,8 @@ import ReclamationstatIcon from '../assets/statCards/ReclamationstatCards';
 import DatepickerIcon from '../assets/inputs/Datepicker';
 import FilterIcon from '../assets/inputs/FilterIcon';
 import PlusIcon from '../assets/action/Plus';
+import RootsIcon from '../assets/inputs/RootsIcon';
+
 
 import AiIcon from '../assets/consultation/Ai.js';
 import DmpIcon from '../assets/consultation/Dmp.js';
@@ -76,6 +81,26 @@ import UserIcon  from '../assets/consultation/cards/UserIcon';
 import CreatinIcon  from '../assets/consultation/cards/Creatine';
 
 import FunctionIcon  from '../assets/Icons/Function';
+
+import Usersvg from '../assets/SvgsComp/UserIcon.js';
+import FolderSvg from '../assets/SvgsComp/FolderSvg.js';
+import calenderSvg from '../assets/SvgsComp/calenderSvg.js';
+
+import bodyManFront from '../assets/body/bodyManFront.js';
+
+import analyIcon  from '../assets/avisAi/analyIcon';
+import ordoIcon  from '../assets/avisAi/ordoIcon';
+import symptIcon  from '../assets/avisAi/symptIcon';
+import procheIcon  from '../assets/avisAi/procheIcon';
+import vouMemeIcon  from '../assets/avisAi/vouMemeIcon';
+import textualIcon  from '../assets/avisAi/textualIcon';
+import audioIcon  from '../assets/avisAi/audioIcon';
+import humBodyIcon  from '../assets/avisAi/humBodyIcon';
+import lockIcon  from '../assets/avisAi/lockIcon';
+
+
+
+
 
 
 
@@ -108,6 +133,8 @@ export const Assets = {
     Consultation,
     
     FunctionIcon,
+    ClipboardIcon,
+    AvisAi,
   },
 
   statCards  :{
@@ -134,10 +161,15 @@ export const Assets = {
     Messagetriger,
     FiltersOn,
     FiltersOff,
+    DetailsIcon
   },
   Inputs:{
     DatepickerIcon,
-    FilterIcon
+    FilterIcon,
+    RootsIcon
+  },
+  body:{
+    bodyManFront,
   },
   Consultation:{
     AiIcon,
@@ -164,8 +196,27 @@ export const Assets = {
       UserIcon  ,
       CreatinIcon,
       
-    }
-  }
+    },
+  },
+
+  Svgs :{
+    Usersvg,
+    FolderSvg,
+    calenderSvg
+  },
+  AvisAi:{
+    analyIcon,
+    ordoIcon,
+    symptIcon,
+    procheIcon,
+    vouMemeIcon,
+    textualIcon,
+    audioIcon,
+    humBodyIcon,
+    lockIcon,
+    
+  },
+
 };
 
 export default Assets;

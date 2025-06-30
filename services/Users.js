@@ -14,6 +14,17 @@ export class Users {
       return null;
     }
   }
+  async checkToken(token) {
+    try {
+      const response = await this.client.get();
+      return response.data; 
+      
+    } catch (error) {
+      console.error('Invalid token:', error);
+      return null; 
+    }
+  }
+
   async login(email, password) {
     try {
       // Replace with the actual endpoint and body structure for your API

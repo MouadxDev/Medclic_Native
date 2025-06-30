@@ -18,30 +18,39 @@ const GradientButton = ({ title, greeting, onButtonPress, Actions,onFiltersPress
         <Text style={styles.title}>{title}</Text>
 
         <View style={styles.actionsContainer}>
-          {Filters && (
-            <TouchableOpacity 
-            
-            onPress={() => {
-              toggleFilter();
-              onFiltersPress();
-            }}
-            
-            style={styles.buttonContainer}>
-              {isFilterOn ? (
-                <Assets.Action.FiltersOn width={25} height={32} />
-              ) : (
-                <Assets.Action.FiltersOff width={25} height={32} />
-              )}
-            </TouchableOpacity>
-          )}
+     
 
           {Actions && (
             <TouchableOpacity onPress={onButtonPress} style={styles.buttonContainer}>
               <LinearGradient
                 colors={['#37A5E8', '#255A9B']}
                 style={styles.gradientButton}>
-                <Assets.Action.PlusIcon width={25} height={32} />
+                <Assets.Action.PlusIcon width={24} height={30} />
               </LinearGradient>
+            </TouchableOpacity>
+          )}
+          
+          {Filters && (
+            <TouchableOpacity
+              onPress={() => {
+                toggleFilter();
+                onFiltersPress();
+              }}
+              style={styles.buttonContainer}>
+              <LinearGradient
+                colors={['rgba(22, 120, 242, 1)', 'rgba(64, 228, 173, 1)']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.GradientFiltreButton}
+              >
+
+                {isFilterOn ? (
+                  <Assets.Action.FiltersOn width={24} height={30} />
+                ) : (
+                  <Assets.Action.FiltersOff width={24} height={30} />
+                )}
+              </LinearGradient>
+
             </TouchableOpacity>
           )}
         </View>
@@ -66,7 +75,6 @@ const styles = StyleSheet.create({
   actionsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
   },
   title: {
     fontSize: 24,
@@ -84,7 +92,7 @@ const styles = StyleSheet.create({
   },
   gradientButton: {
     paddingVertical: 8,
-    paddingHorizontal: 16,
+    paddingHorizontal: 14,
     borderRadius: 6,
   },
   buttonText: {
@@ -93,6 +101,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     fontFamily: 'PoppinsBold',
+  },
+  GradientFiltreButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row', 
   },
 });
 

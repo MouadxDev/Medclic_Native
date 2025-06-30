@@ -1,13 +1,13 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Text } from 'react-native'; // Ensure you import Text
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Default Values
 const defaults = {
   user: {
     id: null,
     name: '',
     email: '',
-    userRole:'',
+    userRole: '',
     isAuthenticated: false,
     token: '',
   },
@@ -21,8 +21,27 @@ const ThemeContext = createContext(defaults.theme);
 // Providers
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(defaults.user);
+
+  useEffect(() => {
+    const loadUser = async () => {
+      const storedUser = await AsyncStorage.getItem('user');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }                      
+    };
+    loadUser();
+  }, []);
+
+  const updateUser = async (newUser) => {
+    setUser(newUser);
+    await AsyncStorage.setItem('user', JSON.stringify(newUser));
+    if (newUser.token) {
+      await AsyncStorage.setItem('token', newUser.token);
+    }
+  };
+
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser: updateUser }}>
       {children}
     </UserContext.Provider>
   );
@@ -30,8 +49,24 @@ export const UserProvider = ({ children }) => {
 
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(defaults.theme);
+
+  useEffect(() => {
+    const loadTheme = async () => {
+      const storedTheme = await AsyncStorage.getItem('theme');
+      if (storedTheme) {
+        setTheme(storedTheme);
+      }
+    };
+    loadTheme();
+  }, []);
+
+  const updateTheme = async (newTheme) => {
+    setTheme(newTheme);
+    await AsyncStorage.setItem('theme', newTheme);
+  };
+
   return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
+    <ThemeContext.Provider value={{ theme, setTheme: updateTheme }}>
       {children}
     </ThemeContext.Provider>
   );

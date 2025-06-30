@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import {
   View,
   Text,
@@ -21,13 +22,24 @@ export default function DynamicTable({
   data,
   pagination,
   onActionClick,
+  shadowEffect 
 }) {
-  const highlightedRows =  CalledBy === "FseScreen" ? [2, 3, 4] : []; 
+  const Collapselogic = CalledBy === 'FseScreen';
+  const highlightedRows = CalledBy === "FseScreen" ? [2, 3, 4] : [];
+
+  const hiddenRowIndices =
+    CalledBy === "FseScreen"
+      ? [0,1,2,3,4,5,6]
+      : [];
+      
+  const [visibleRows, setVisibleRows] = useState({});
+
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+
   const rowRefs = useRef([]);
 
-  
+
   const actions = [
     { key: 'rendezvous', label: 'Rendez-vous', icon: <Assets.Action.CalendarIcon /> },
     { key: 'suivis', label: 'Suivis', icon: <Assets.Action.SuiviIcon /> },
@@ -38,7 +50,8 @@ export default function DynamicTable({
     { key: 'notes', label: 'Notes', icon: <Assets.Action.NotesIcon /> },
     { key: 'bloquer', label: 'Bloquer', icon: <Assets.Action.BloquerIcon /> },
   ];
-  const shouldRenderActions = (CalledBy !== "ComplaintScreen" && actions.length > 0);
+  const shouldRenderActions = (CalledBy !== "ComplaintScreen" && CalledBy !== "FseScreen" && actions.length > 0);
+  const shouldRenderActionsFSE = CalledBy == "FseScreen";
 
   const handleActionPress = (actionKey, row) => {
     onActionClick(actionKey, row);
@@ -54,11 +67,22 @@ export default function DynamicTable({
     // Measure the position of the pressed row
     rowRefs.current[index].measureInWindow((x, y, width, height) => {
       setModalPosition({
-        top: y + height-300,
+        top: y + height - 300,
         left: x + width - 200, // Adjust based on your design
       });
       setSelectedRowIndex(index);
     });
+  };
+  const toggleRowVisibility = (rowIndex) => {
+    setVisibleRows((prev) => ({
+      ...prev,
+      [rowIndex]: !prev[rowIndex], // Toggle visibility for the specific row
+    }));
+  };
+
+  const navigation = useNavigation();
+  const handleNavigation = (route, id) => {
+    navigation.navigate(route, { id });
   };
 
   const TruncatedText = ({ text, style }) => {
@@ -66,6 +90,7 @@ export default function DynamicTable({
     const shouldTruncate = text.length > MAX_LENGTH;
     const truncatedText = shouldTruncate ? text.substring(0, MAX_LENGTH) + '...' : text;
   
+
     return (
       <Tooltip
         isVisible={showTooltip}
@@ -75,75 +100,81 @@ export default function DynamicTable({
         onClose={() => setShowTooltip(false)}
       >
         <TouchableOpacity onPress={() => shouldTruncate && setShowTooltip(true)}>
-        <Text style={[style, showTooltip && { color: 'transparent' }]}>
-                  {truncatedText}
-                </Text>
+          <Text style={[style, showTooltip && { color: 'transparent' }]}>
+            {truncatedText}
+          </Text>
         </TouchableOpacity>
       </Tooltip>
     );
   };
-  
+
   return (
-    <View style={styles.container}>
+    <View style={shadowEffect  ?   styles.container : styles.container_noshadow}>
       <ScrollView>
         <View style={styles.table}>
           {data.map((row, rowIndex) => (
-            
+
             <View
-            key={rowIndex}
-            ref={(ref) => rowRefs.current[rowIndex] = ref}
-            style={[
-              styles.row,
-              CalledBy === "AbsenceScreen" && { paddingVertical: 20 },
-            ]}
-          >
+              key={rowIndex}
+              ref={(ref) => rowRefs.current[rowIndex] = ref}
+              style={[
+                styles.row,
+                CalledBy === "AbsenceScreen" && { paddingVertical: 20 },
+              ]}
+            >
 
               {/* Row Data */}
 
               {columns.map((column, index) => {
                 const highlightIndices =
                   CalledBy === "AbsenceScreen"
-                      ? [2, 3]
-                    
-                    : CalledBy === "MyRDVsScreen" 
+                    ? [2, 3]
+
+                    : CalledBy === "MyRDVsScreen"
                       ? [0]
 
-                    :CalledBy === "ComplaintScreen"
-                      ? [5,2]
-                    
-                    :CalledBy === "MyDocumentsScreen"
-                      ? [1,3,7]
-                    :CalledBy === "FseScreen"
-                      ? [0]
-                      
-                      :[1, 4];
+                      : CalledBy === "ComplaintScreen"
+                        ? [5, 2]
 
-                const customStyleIndices = 
-                  (CalledBy === "MyRDVsScreen") 
-                  ? [2] : 
-                  (CalledBy === "MyDocumentsScreen") 
-                  ? [5] :
-                  (CalledBy === "ComplaintScreen" ? 
-                  [1] : []);
+                        : CalledBy === "MyDocumentsScreen"
+                          ? [1, 3, 7]
+                          : CalledBy === "FseScreen"
+                            ? [0]
 
-                
+                            : [1, 4];
+
+                const customStyleIndices =
+                  (CalledBy === "MyRDVsScreen")
+                    ? [2] :
+                    (CalledBy === "MyDocumentsScreen")
+                      ? [5] :
+                      (CalledBy === "ComplaintScreen" ?
+                        [1] : []);
+
+
                 const statusStyleIndices =
-                (CalledBy === "MyRDVsScreen")  
-                    ? [5]:
-                (CalledBy === "FseScreen")
+                  (CalledBy === "MyRDVsScreen")
                     ? [5] :
-                      []; 
+                    (CalledBy === "FseScreen")
+                      ? [6] :
+                      [];
 
-                
-                
                 return (
                   <View
                     key={column.key}
                     style={[
                       styles.cellFullRow,
+                      Collapselogic &&
+                      !hiddenRowIndices.includes(index) &&
+                      !visibleRows[rowIndex] && { display: "none" },
                     ]}
                   >
-                    <Text style={[styles.cellLabel]}>{column.label}:</Text>
+                    <Text style={[
+                      styles.cellLabel,
+                   ]}>
+                      {column.label}
+                    </Text>
+
                     {customStyleIndices.includes(index) ? (
                       <View
                         style={{
@@ -151,42 +182,42 @@ export default function DynamicTable({
                           borderRadius: 16,
                           paddingHorizontal: 11,
                           paddingVertical: 7,
-                          alignSelf: 'flex-start', 
+                          alignSelf: 'flex-start',
                         }}
                       >
-                        <Text style={[styles.cellValue, { color: '#4184F7' }]}>
+                        <Text style={[styles.cellValue, { color: '#4184F7' },
+                      ]}>
                           {row[column.key]}
                         </Text>
                       </View>
                     ) : statusStyleIndices.includes(index) ? (
-                      
+
                       <Text
-                          style={[
-                            styles.cellValue,
-                            (row[column.key] === "À venir" || row[column.key] === "Remboursée") && { color: '#2EA47C' }, 
-                            (row[column.key] === "Annulé" || row[column.key] === "A rembourser") && { color: '#E40D0D' }, 
-                            (row[column.key] === "En cours" || row[column.key] === "Demande") && { color: '#F3B414' }, 
-                          ]}
-                        >
-                      {row[column.key]}
-                    </Text>
+                        style={[
+                          styles.cellValue,
+                    
+                          (row[column.key] === "À venir" || row[column.key] === "Remboursée") && { color: '#2EA47C' },
+                          (row[column.key] === "Annulé" || row[column.key] === "A rembourser") && { color: '#E40D0D' },
+                          (row[column.key] === "En cours" || row[column.key] === "Demande") && { color: '#F3B414' },
+                        ]}
+                      >
+                        {row[column.key]}
+                      </Text>
 
                     ) : (
 
-                <TruncatedText 
-                    text={row[column.key]} 
-                    style={[
-                            styles.cellValue, 
-                            highlightIndices.includes(index) 
-                            && { color: '#6C87AE' }]} 
-                          />
+                      <TruncatedText
+                        text={row[column.key]}
+                        style={[
+                          styles.cellValue,
+                          highlightIndices.includes(index)
+                          && { color: '#6C87AE' }]}
+                      />
                     )}
-                    
+
                   </View>
                 );
               })}
-
-
 
               {/* Actions Trigger */}
 
@@ -201,18 +232,37 @@ export default function DynamicTable({
                 </View>
               )}
 
-            { !shouldRenderActions && (
+              {!shouldRenderActions && !shouldRenderActionsFSE && (
                 <View style={styles.actionsCell2}>
                   <TouchableOpacity
                     style={styles.actionDots}
                   >
-                    <Assets.Action.Messagetriger />                    
+                    <Assets.Action.Messagetriger />
                   </TouchableOpacity>
                 </View>
               )}
 
+              {!shouldRenderActions && shouldRenderActionsFSE && (
+                <View style={styles.actionsCell2}>
+                  <TouchableOpacity
+                    onPress={() => handleNavigation('FseDetailsScreen', data[rowIndex].dossier )}
+                    style={styles.actionDots}
+                  >
+                    <Assets.Action.DetailsIcon />
+                  </TouchableOpacity>
+                </View>
+              )}
 
-
+            {Collapselogic && (
+                  <TouchableOpacity
+                        onPress={() => toggleRowVisibility(rowIndex)}
+                        style={styles.toggleButton}
+                      >
+                        <Text style={styles.toggleButtonText}>
+                          {visibleRows[rowIndex] ? "Masquer les détails" : "Afficher les détails"}
+                        </Text>
+                  </TouchableOpacity>
+              )}
             </View>
           ))}
         </View>
@@ -296,6 +346,9 @@ const styles = StyleSheet.create({
     elevation: 3,
     marginVertical: 16,
   },
+  container_noshadow: {
+    padding: 7,
+  },
   table: {
     marginBottom: 16,
   },
@@ -308,9 +361,9 @@ const styles = StyleSheet.create({
   cellFullRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems:'center',
+    alignItems: 'center',
     paddingVertical: 6,
-    
+
   },
   cellLabel: {
     fontSize: 14,
@@ -320,7 +373,7 @@ const styles = StyleSheet.create({
   },
   cellValue: {
     fontSize: 14,
-    paddingRight:3,
+    paddingRight: 3,
     color: '#333',
     textAlign: 'right',
     flex: 1,
@@ -375,6 +428,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: 16,
+    marginBottom:16,
   },
   pageButton: {
     fontSize: 14,
@@ -387,5 +441,16 @@ const styles = StyleSheet.create({
   pageIndicator: {
     fontSize: 14,
     color: '#555',
+  },
+  toggleButton:{
+    marginTop: 5,
+    alignSelf: "center",
+    padding: 8,
+    borderRadius: 4,
+  },
+  toggleButtonText: {
+    color: "#6C87AE",
+    fontSize: 14,
+    fontWeight: "bold",
   },
 });

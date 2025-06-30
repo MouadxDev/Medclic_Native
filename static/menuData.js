@@ -5,12 +5,15 @@ const sidebarData = [
     {
       section: 'Administration',
       items: [
+        
         { icon: 'Patients', route: 'MyPatientsScreen' },
         { icon: 'Agenda', route: 'MyRDVsScreen' },
         { icon: 'Documents', route: 'MyDocumentsScreen' },
         { icon: 'Calendriers', route: 'Calendriers' },
         { icon: 'Suivis', route: 'Suivis' },
         { icon: 'Prescriptions', route: 'Prescriptions' },
+        { icon: 'AvisAi', route: 'AvisAiScreen' },        
+        { icon: 'ClipboardIcon', route: 'DemandScreen' },
         { icon: 'Absences', route: 'AbsencesScreen' },
         { icon: 'Complaint', route: 'ComplaintScreen' },
         { icon: 'DMP', route: 'DMP' },
