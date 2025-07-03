@@ -29,16 +29,18 @@ export default function LoginScreen({ navigation }) {
 
   const handleLogin = async () => {
     try {
-      const userData = await usersService.getAll(); 
-      const user = userData.data.user;
-
+      const userData = await usersService.login(email, password); 
+      const user = userData.result.user;
+      const token = userData.result.token;
+      
+      
         setUser({
           id: user.id || '',
           name: user.name || 'Unknown',
           email: user.email || '',
           userRole: user.userRole || 'guest',
-          isAuthenticated: !!user.token, 
-          token: user.token || null,
+          isAuthenticated: !!token, 
+          token: token || null,
         });
       
       showToast('success', 'Connexion réussie')
@@ -46,6 +48,7 @@ export default function LoginScreen({ navigation }) {
     } catch (error) {
      
       showToast('error', 'Invalid email or password.')
+      console.log(error)
 
     }
   };

@@ -29,7 +29,7 @@ export const UserProvider = ({ children }) => {
         setUser(JSON.parse(storedUser));
       }                      
     };
-    loadUser();
+  //  loadUser();
   }, []);
 
   const updateUser = async (newUser) => {

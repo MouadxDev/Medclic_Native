@@ -15,8 +15,8 @@ import { DashboardController } from '../services/Dashboard';
 
 export default function HomeScreen() {
 
-
   const { user } = useUser();
+  
   const userName = user.userRole === 'professional' 
   ? `Bonjour Dr. ${user.name}` 
   : `Bonjour ${user.name}`;
@@ -62,7 +62,6 @@ export default function HomeScreen() {
 
   console.log("data from the home :",dashboardData)
   
-
   const patientOverviewData = {
     labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'], // Months
     datasets: [

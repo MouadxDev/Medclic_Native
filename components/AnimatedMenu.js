@@ -10,7 +10,10 @@ import {
   TouchableWithoutFeedback,
   Platform,
   StatusBar,
+  Alert,
 } from 'react-native';
+import { useUser } from '../contexts/AppContext';
+import { Users } from '../services/Users';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const STATUS_BAR_HEIGHT = Platform.OS === 'android' ? StatusBar.currentHeight : 0;
@@ -18,9 +21,34 @@ const STATUS_BAR_HEIGHT = Platform.OS === 'android' ? StatusBar.currentHeight : 
 export default function AnimatedMenu({ isVisible, toggleMenu }) {
   const translateX = React.useRef(new Animated.Value(SCREEN_WIDTH)).current; // Start off-screen
   const navigation = useNavigation();
+  const { setUser } = useUser();
+  const usersService = new Users();
   
   const handleNavigation = (route) => {
-    navigation.navigate(route);
+    if (route === 'Logout') {
+      handleLogout();
+    } else {
+      navigation.navigate(route);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await usersService.logout();
+      setUser({
+        id: null,
+        name: '',
+        email: '',
+        userRole: '',
+        isAuthenticated: false,
+        token: '',
+      });
+      navigation.replace('Login');
+    } catch (error) {
+      Alert.alert('Error', 'Failed to logout');
+      console.error(error);
+    
+    }
   };
 
   React.useEffect(() => {
@@ -82,7 +110,7 @@ export default function AnimatedMenu({ isVisible, toggleMenu }) {
             <Text style={styles.menuItem}>Compte</Text>
           </TouchableOpacity>
           <View style={styles.divider} />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => handleNavigation('Logout')}>
             <Text style={styles.logout}>Logout</Text>
           </TouchableOpacity>
         </View>

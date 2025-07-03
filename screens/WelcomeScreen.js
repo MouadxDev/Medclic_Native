@@ -18,22 +18,24 @@ export default function WelcomeScreen({ navigation }) {
   useEffect(() => {
     const checkStoredToken = async () => {
       const storedToken = await AsyncStorage.getItem('token');
+      const storedUser = await AsyncStorage.getItem('user');
+        
       if (storedToken) {
-        const userData = await usersService.checkToken(storedToken);
-        if (userData) {
+        const userData = await usersService.checkToken({token:storedToken});
+        const time_left_days = userData.result.success
+        if (userData.result.success==true) {
+          
+          if (time_left_days<=15) {
+            console.log("Token refresh");  
+          }
           // If token is valid, log the user in
-          setUser({
-            id: userData.id || '',
-            name: userData.name || 'Unknown',
-            email: userData.email || '',
-            userRole: userData.userRole || 'guest',
-            isAuthenticated: true,
-            token: storedToken,
-          });
-          navigation.replace('Home'); // Redirect to home screen
+          
+          if (storedUser) {
+            setUser(JSON.parse(storedUser));
+          } 
         } else {
-          await AsyncStorage.removeItem('token');
-          navigation.replace('Login');
+            await AsyncStorage.removeItem('token');
+            navigation.replace('Login');
         }
       } else {
         navigation.replace('Login');

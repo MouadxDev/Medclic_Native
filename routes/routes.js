@@ -58,6 +58,7 @@ export default function Router() {
         ) :  user.isAuthenticated  ? (
           // Load authenticated routes
           <>
+          
              <Stack.Screen
               name="Home"
               options={{ headerShown: false }} >

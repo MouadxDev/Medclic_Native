@@ -3,7 +3,9 @@ import { HttpClient } from './HttpClient';
 
 export class Users {
   constructor() {
-    this.client = new HttpClient(ENV.API_USER_AUTH);
+    this.client = new HttpClient(ENV.API_URL + ENV.API_VERSION + ENV.USER_AUTH);
+    this.tokenClient = new HttpClient(ENV.API_URL + ENV.API_VERSION + ENV.Validate_TOKEN);
+    
   }
 
   async getAll() {
@@ -16,8 +18,8 @@ export class Users {
   }
   async checkToken(token) {
     try {
-      const response = await this.client.get();
-      return response.data; 
+      const response = await this.tokenClient.post(token);
+      return response; 
       
     } catch (error) {
       console.error('Invalid token:', error);
@@ -25,24 +27,36 @@ export class Users {
     }
   }
 
-  async login(email, password) {
+  async login(login, password) {
     try {
-      // Replace with the actual endpoint and body structure for your API
-      const response = await this.client.post('/login', { email, password });
-      return response.data; // Assuming the API returns user data on successful login
+      const requestBody = { login, password, db: ENV.Database };
+      const response = await this.client.post(requestBody);
+      return response;
     } catch (error) {
-      console.error('Login failed:', error.response?.data || error.message);
       throw new Error(error.response?.data?.message || 'Login failed.');
     }
   }
+  async logout() {
+ 
+  }
+  
+  
 
   async getById(id) {
-    console.warn('getById is not implemented for test mode.');
-    return { status: 'stub', message: 'getById not implemented yet.' };
+    try {
+      return await this.client.get(`/${id}`);
+    } catch (error) {
+      console.error('Error fetching user by ID:', error);
+      return null;
+    }
   }
 
   async create(data) {
-    console.warn('Create functionality is disabled in test mode.');
-    return { status: 'stub', message: 'Create not implemented yet.' };
+    try {
+      return await this.client.post(data);
+    } catch (error) {
+      console.error('Error creating user:', error);
+      return null;
+    }
   }
 }
